@@ -10,6 +10,7 @@ target 'Study Smart' do
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
   pod 'GoogleSignIn'
+  pod 'Google'
 
   target 'Study SmartTests' do
     inherit! :search_paths
