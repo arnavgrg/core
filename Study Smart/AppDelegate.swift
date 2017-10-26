@@ -19,18 +19,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate
     {
         if (error == nil)
         {
-            // Perform any operations on signed in user here.
-            
-            let userId = user.userID                  // For client-side use only!
-            let idToken = user.authentication.idToken // Safe to send to the server
-            let fullName = user.profile.name
-            let givenName = user.profile.givenName
-            let familyName = user.profile.familyName
-            let email = user.profile.email
-            
-            // ...
-            print(userId)
-            print(fullName)
+            if (user.hostedDomain != nil && (user.hostedDomain! == "g.ucla.edu" || user.hostedDomain! == "ucla.edu")) //domain check
+            {
+                // Perform any operations on signed in user here.
+                
+                let userId = user.userID                  // For client-side use only!
+                let idToken = user.authentication.idToken // Safe to send to the server
+                let fullName = user.profile.name
+                let givenName = user.profile.givenName
+                let familyName = user.profile.familyName
+                let email = user.profile.email
+                
+                // ...
+                print(userId)
+                print(fullName)
+            }
+            else
+            {
+                print("Domain is not ucla affiliated, it is \(user.hostedDomain)")
+            }
         }
         else
         {
