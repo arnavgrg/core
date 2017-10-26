@@ -15,6 +15,7 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     var usernameLabel: UILabel = UILabel()
     var passwordLabel: UILabel = UILabel()
     var signInButton: GIDSignInButton = GIDSignInButton()
+    var signOutButton: UIButton = UIButton()
 
     override func viewDidLoad()
     {
@@ -29,10 +30,14 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         passwordLabel.text = "Password"
         
         signInButton.frame = CGRect(x: 50, y: 300, width: 40, height: 40)
+        signOutButton.frame = CGRect(x: 50, y: 400, width: 40, height: 40)
+        signOutButton.backgroundColor = UIColor.blue
+        signOutButton.addTarget(self, action:#selector(didTapSignOut), for: .touchUpInside)
         
         view.addSubview(usernameLabel)
         view.addSubview(passwordLabel)
         view.addSubview(signInButton)
+        view.addSubview(signOutButton)
         
     }
 
@@ -41,7 +46,12 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    @objc func didTapSignOut()
+    {
+        print("sign out button pressed")
+        GIDSignIn.sharedInstance().signOut()
+    }
 
 }
 
