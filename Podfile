@@ -9,7 +9,7 @@ target 'Study Smart' do
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
-  pod 'GoogleSignIn'
+  pod 'Google/SignIn'
   pod 'Google'
 
   target 'Study SmartTests' do
