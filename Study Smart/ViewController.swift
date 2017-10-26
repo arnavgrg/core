@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleSignIn
+import GoogleMaps
 
 class ViewController: UIViewController, GIDSignInUIDelegate
 {
@@ -16,7 +17,8 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     var passwordLabel: UILabel = UILabel()
     var signInButton: GIDSignInButton = GIDSignInButton()
     var signOutButton: UIButton = UIButton()
-
+    var mapScreenButton: UIButton = UIButton()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -31,13 +33,17 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         
         signInButton.frame = CGRect(x: 50, y: 300, width: 40, height: 40)
         signOutButton.frame = CGRect(x: 50, y: 400, width: 40, height: 40)
+        mapScreenButton.frame = CGRect(x: 150, y: 400, width: 40, height: 40)
         signOutButton.backgroundColor = UIColor.blue
         signOutButton.addTarget(self, action:#selector(didTapSignOut), for: .touchUpInside)
+        mapScreenButton.backgroundColor = UIColor.green
+        mapScreenButton.addTarget(self, action:#selector(goToMap), for: .touchUpInside)
         
         view.addSubview(usernameLabel)
         view.addSubview(passwordLabel)
         view.addSubview(signInButton)
         view.addSubview(signOutButton)
+        view.addSubview(mapScreenButton)
         
     }
 
@@ -51,6 +57,12 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     {
         print("sign out button pressed")
         GIDSignIn.sharedInstance().signOut()
+    }
+    
+    @objc func goToMap()
+    {
+        let mapViewController = MapViewController()
+        self.present(mapViewController, animated: true, completion: nil)
     }
 
 }
