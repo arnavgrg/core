@@ -18,6 +18,8 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     var signInButton: GIDSignInButton = GIDSignInButton()
     var signOutButton: UIButton = UIButton()
     var mapScreenButton: UIButton = UIButton()
+    var updateInfoButton: UIButton = UIButton()
+    var user: User?
     
     override func viewDidLoad()
     {
@@ -32,14 +34,18 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         passwordLabel.text = "Password"
         
         signInButton.frame = CGRect(x: 50, y: 300, width: 40, height: 40)
+        updateInfoButton.frame = CGRect(x: 250, y: 300, width: 40, height: 40)
         signOutButton.frame = CGRect(x: 50, y: 400, width: 40, height: 40)
         mapScreenButton.frame = CGRect(x: 150, y: 400, width: 40, height: 40)
         signOutButton.backgroundColor = UIColor.blue
+        updateInfoButton.backgroundColor = UIColor.black
         signOutButton.addTarget(self, action:#selector(didTapSignOut), for: .touchUpInside)
+        updateInfoButton.addTarget(self, action:#selector(updateInfo), for: .touchUpInside)
         mapScreenButton.backgroundColor = UIColor.green
         mapScreenButton.addTarget(self, action:#selector(goToMap), for: .touchUpInside)
         
         view.addSubview(usernameLabel)
+        view.addSubview(updateInfoButton)
         view.addSubview(passwordLabel)
         view.addSubview(signInButton)
         view.addSubview(signOutButton)
@@ -55,15 +61,28 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     
     @objc func didTapSignOut()
     {
+       // print("logged out of:" + (GIDSignIn.sharedInstance().currentUser?.profile.name)!)
         print("sign out button pressed")
         GIDSignIn.sharedInstance().signOut()
     }
+    
     
     @objc func goToMap()
     {
         let mapViewController = MapViewController()
         self.present(mapViewController, animated: true, completion: nil)
     }
+
+    @objc func updateInfo() {
+        
+        // TODO:
+        // Should be a delegate method to be called when the sign in process is over.
+        
+        if((GIDSignIn.sharedInstance().currentUser) != nil) {
+            self.usernameLabel.text = GIDSignIn.sharedInstance().currentUser.profile.name
+        }
+    }
+
 
 }
 

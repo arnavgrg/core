@@ -11,11 +11,13 @@ import GoogleMaps
 
 class MapViewController: UIViewController {
 
+    var camera: GMSCameraPosition!
+    
     override func loadView()
     {
         // Create a GMSCameraPosition that tells the map to display the
         // coordinate -33.86,151.20 at zoom level 6.
-        let camera = GMSCameraPosition.camera(withLatitude: 34.07, longitude: -118.45, zoom: 15.0)
+        self.camera = GMSCameraPosition.camera(withLatitude: 34.07, longitude: -118.45, zoom: 15.0)
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         view = mapView
         
@@ -25,6 +27,15 @@ class MapViewController: UIViewController {
         marker.title = "UCLA"
         marker.snippet = "California"
         marker.map = mapView
+        
+        
+        // TODO:
+        // 1. Fix the visible area of the map (UCLA).
+        // 2.
+        
+        let backToOrigViewButton = UIButton()
+        backToOrigViewButton.frame = CGRect(x: 0, y: 500, width: 40, height: 40)
+        backToOrigViewButton.addTarget(self, action:#selector(backToOrigView), for: .touchUpInside)
     }
     
     override func viewDidLoad()
@@ -32,6 +43,11 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func backToOrigView(){
+        // TODO:
+        // Bring camera to original view. 
     }
 
     override func didReceiveMemoryWarning()

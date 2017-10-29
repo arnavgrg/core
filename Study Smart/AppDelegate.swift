@@ -31,12 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate
                 let email = user.profile.email
                 
                 // ...
-                print(userId)
-                print(fullName)
+                print(userId ?? "nil")
+                print(fullName ?? "nil")
             }
             else
             {
                 print("Domain is not ucla affiliated, it is \(user.hostedDomain)")
+                GIDSignIn.sharedInstance().signOut()
             }
         }
         else
