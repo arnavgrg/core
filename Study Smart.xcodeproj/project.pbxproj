@@ -15,6 +15,7 @@
 		2772E6361F9C5E9E00FE0426 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2772E6341F9C5E9E00FE0426 /* LaunchScreen.storyboard */; };
 		2772E6411F9C5E9F00FE0426 /* Study_SmartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E6401F9C5E9F00FE0426 /* Study_SmartTests.swift */; };
 		2772E64C1F9C5E9F00FE0426 /* Study_SmartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E64B1F9C5E9F00FE0426 /* Study_SmartUITests.swift */; };
+		27A02C751FA7FD60003E17B9 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A02C741FA7FD60003E17B9 /* Pin.swift */; };
 		27EC7F191FA29F3400FB6B51 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EC7F181FA29F3400FB6B51 /* MapViewController.swift */; };
 		3A77172B1FA564F20020F16C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77172A1FA564530020F16C /* User.swift */; };
 		5F212A374E40F330D06BE668 /* Pods_Study_SmartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA9CD8E1325C00969274AA9 /* Pods_Study_SmartUITests.framework */; };
@@ -57,6 +58,7 @@
 		2772E64B1F9C5E9F00FE0426 /* Study_SmartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Study_SmartUITests.swift; sourceTree = "<group>"; };
 		2772E64D1F9C5E9F00FE0426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2772E6591F9E809A00FE0426 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		27A02C741FA7FD60003E17B9 /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		27EC7F181FA29F3400FB6B51 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3A77172A1FA564530020F16C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Study_Smart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 				3A7717291FA564530020F16C /* Model */,
 				2772E62D1F9C5E9E00FE0426 /* ViewController.swift */,
 				27EC7F181FA29F3400FB6B51 /* MapViewController.swift */,
+				27A02C741FA7FD60003E17B9 /* Pin.swift */,
 				2772E62F1F9C5E9E00FE0426 /* Main.storyboard */,
 				2772E6321F9C5E9E00FE0426 /* Assets.xcassets */,
 				2772E6341F9C5E9E00FE0426 /* LaunchScreen.storyboard */,
@@ -404,12 +407,16 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -489,6 +496,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A02C751FA7FD60003E17B9 /* Pin.swift in Sources */,
 				3A77172B1FA564F20020F16C /* User.swift in Sources */,
 				2772E62E1F9C5E9E00FE0426 /* ViewController.swift in Sources */,
 				27EC7F191FA29F3400FB6B51 /* MapViewController.swift in Sources */,
@@ -661,10 +669,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9MN296DDEL;
+				DEVELOPMENT_TEAM = YAB9WFFW4V;
 				INFOPLIST_FILE = "Study Smart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.AL";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Study Smart/Study Smart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -680,10 +688,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9MN296DDEL;
+				DEVELOPMENT_TEAM = YAB9WFFW4V;
 				INFOPLIST_FILE = "Study Smart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.AL";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Study Smart/Study Smart-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

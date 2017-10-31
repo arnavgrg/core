@@ -11,6 +11,7 @@ target 'Study Smart' do
   pod 'GoogleMaps'
   pod 'Google/SignIn'
   pod 'Google'
+  pod 'Material'
 
   target 'Study SmartTests' do
     inherit! :search_paths
