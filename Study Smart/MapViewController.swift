@@ -15,8 +15,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
     
-    let CENTER_LATITUDE = 34.07
-    let CENTER_LONGITUDE = -118.45
+    let CENTER_LATITUDE = 34.0705
+    let CENTER_LONGITUDE = -118.4468
     let DEFAULT_ZOOM = 15.0
     
     override func loadView()
@@ -24,6 +24,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         // Create a GMSCameraPosition that tells the map to display UCLA
         self.camera = GMSCameraPosition.camera(withLatitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE, zoom: Float(DEFAULT_ZOOM))
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapView.isMyLocationEnabled = true
         view = mapView
         
         
@@ -38,7 +39,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         // TODO: Fix the visible area of the map (UCLA).
         setupCenterButton()
         
-        
     }
     
     override func viewDidLoad()
@@ -46,6 +46,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupLibraryPins()
     }
     
     func setupCenterButton()
@@ -63,12 +64,51 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         centerButton.layoutIfNeeded()
     }
     
+    //Useful links:
+    //https://developers.google.com/maps/documentation/utilities/polylineutility
+    //https://www.latlong.net
+    func setupLibraryPins()
+    {
+        //TODO: Clean this up massively, just for testing purposes
+        let YRL = CLLocationCoordinate2D(latitude: 34.075221, longitude: -118.441514)
+        let pin = Pin(position: YRL, title: "YRL", map: mapView)
+        
+        //This works! YRL library geofence.
+        let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
+        let polygon = GMSPolygon(path: YRLpath)
+        polygon.map = mapView
+ 
+        let Powell = CLLocationCoordinate2D(latitude: 34.071796, longitude: -118.442185)
+        let pin2 = Pin(position: Powell, title: "Powell", map: mapView)
+        
+        //This works! YRL library geofence.
+        let Powellpath = GMSPath(fromEncodedPath: "qo}nEzc|qU?z@a@@?p@^A@x@eD@?iD")
+        let polygon2 = GMSPolygon(path: Powellpath)
+        polygon2.map = mapView
+        
+        /*
+        let path = GMSMutablePath()
+        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.0))
+        path.add(CLLocationCoordinate2D(latitude: 37.45, longitude: -122.0))
+        path.add(CLLocationCoordinate2D(latitude: 37.45, longitude: -122.2))
+        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.2))
+        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.0))
+        
+        let rectangle = GMSPolyline(path: path)
+        rectangle.map = mapView
+         */
+    }
+    
     @objc func centerView()
     {
         print("centerView() called")
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE))
         mapView.animate(toZoom: Float(DEFAULT_ZOOM))
         //mapView.updateFocusIfNeeded()
+        
+        //TODO: Move this test to another button, checking if geofence works
+        let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
+        print("Result of geofencing \(GMSGeometryContainsLocation((mapView.myLocation?.coordinate)!, YRLpath!, false))")
     }
 
     override func didReceiveMemoryWarning()
