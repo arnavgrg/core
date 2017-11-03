@@ -38,8 +38,6 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         
         setupSignOutButton()
         setupSignInButton()
-        
-        
     }
     
     func setupSignInButton()
@@ -105,7 +103,5 @@ class ViewController: UIViewController, GIDSignInUIDelegate
             //self.usernameLabel.text = GIDSignIn.sharedInstance().currentUser.profile.name
         }
     }
-
-
 }
 

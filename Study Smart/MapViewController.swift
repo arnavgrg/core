@@ -15,8 +15,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
     
-    let CENTER_LATITUDE = 34.0705
-    let CENTER_LONGITUDE = -118.4468
+    let CENTER_LATITUDE = Locations.UCLA.latitude
+    let CENTER_LONGITUDE = Locations.UCLA.longitude
     let DEFAULT_ZOOM = 15.0
     
     override func loadView()
@@ -30,15 +30,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: 34.07, longitude: -118.45)
-        marker.title = "UCLA"
-        marker.snippet = "California"
-        marker.map = mapView
-        
+        let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: mapView)
         
         // TODO: Fix the visible area of the map (UCLA).
         setupCenterButton()
-        
     }
     
     override func viewDidLoad()
@@ -64,39 +59,18 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         centerButton.layoutIfNeeded()
     }
     
-    //Useful links:
-    //https://developers.google.com/maps/documentation/utilities/polylineutility
-    //https://www.latlong.net
+    
     func setupLibraryPins()
     {
-        //TODO: Clean this up massively, just for testing purposes
-        let YRL = CLLocationCoordinate2D(latitude: 34.075221, longitude: -118.441514)
-        let pin = Pin(position: YRL, title: "YRL", map: mapView)
+        //Setting up Powell's pin
+        let powellPin = Pin(position: CLLocationCoordinate2DMake(Locations.POWELL_LIBRARY.latitude, Locations.POWELL_LIBRARY.longitude), title: Locations.POWELL_LIBRARY.name, map: mapView)
+        let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
+        powellPolygon.map = mapView
         
-        //This works! YRL library geofence.
-        let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
-        let polygon = GMSPolygon(path: YRLpath)
-        polygon.map = mapView
- 
-        let Powell = CLLocationCoordinate2D(latitude: 34.071796, longitude: -118.442185)
-        let pin2 = Pin(position: Powell, title: "Powell", map: mapView)
-        
-        //This works! YRL library geofence.
-        let Powellpath = GMSPath(fromEncodedPath: "qo}nEzc|qU?z@a@@?p@^A@x@eD@?iD")
-        let polygon2 = GMSPolygon(path: Powellpath)
-        polygon2.map = mapView
-        
-        /*
-        let path = GMSMutablePath()
-        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.0))
-        path.add(CLLocationCoordinate2D(latitude: 37.45, longitude: -122.0))
-        path.add(CLLocationCoordinate2D(latitude: 37.45, longitude: -122.2))
-        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.2))
-        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.0))
-        
-        let rectangle = GMSPolyline(path: path)
-        rectangle.map = mapView
-         */
+        //Setting up YRL's pin
+        let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
+        let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
+        yrlPolygon.map = mapView
     }
     
     @objc func centerView()
@@ -122,16 +96,4 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         print("\(marker.title ?? "nil marker title") clicked!")
         return true;
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
