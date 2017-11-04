@@ -9,11 +9,13 @@
 import UIKit
 import GoogleMaps
 import Material
+import CoreLocation
 
-class MapViewController: UIViewController, GMSMapViewDelegate {
+class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
 
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
+    var locationManager: CLLocationManager!
     
     let CENTER_LATITUDE = Locations.UCLA.latitude
     let CENTER_LONGITUDE = Locations.UCLA.longitude
@@ -36,20 +38,23 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let marker = GMSMarker()
         let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: mapView)
         
-        
         mapView.cameraTargetBounds = GMSCoordinateBounds(coordinate: upleft, coordinate: downright)
         
-        // TODO: Fix the visible area of the map (UCLA).
         setupCenterButton()
+        setupGeoTestButton()
     }
     
     override func viewDidLoad()
     {
+
+        
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         setupLibraryPins()
+        
     }
+
     
     func setupCenterButton()
     {
@@ -66,6 +71,46 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         centerButton.layoutIfNeeded()
     }
     
+    @objc func centerView()
+    {
+        print("centerView() called")
+        mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE))
+        mapView.animate(toZoom: Float(DEFAULT_ZOOM))
+        //mapView.updateFocusIfNeeded()
+        
+        updateOccupancy()
+        
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func updateOccupancy(){
+        // Discuss how are we getting info.
+    }
+    
+    
+    func setupGeoTestButton() {
+        let geoTestButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        geoTestButton.addTarget(self, action:#selector(geoTest), for: .touchUpInside)
+        view.addSubview(geoTestButton)
+        
+        NSLayoutConstraint(item: geoTestButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .left, relatedBy: .equal, toItem: view, attribute: .leftMargin, multiplier: 1.0, constant: 20).isActive = true
+        geoTestButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        geoTestButton.layoutIfNeeded()
+
+    }
+    
+    @objc func geoTest() {
+        let YRLpath = GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence)
+        print("Result of geofencing \(GMSGeometryContainsLocation((mapView.myLocation?.coordinate)!, YRLpath!, false))")
+    }
+    
     
     func setupLibraryPins()
     {
@@ -74,34 +119,24 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
         powellPolygon.map = mapView
         
-        powellPin.icon = UIImage(named: "test")
+        powellPin.icon = UIImage(named: "bluepowell")
+        
+
         
         //Setting up YRL's pin
         let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
         let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
+        yrlPolygon.fillColor = nil
         yrlPolygon.map = mapView
+        yrlPin.icon = UIImage(named: "blueyrl")
         
         pins.append(yrlPin)
         pins.append(powellPin)
+        
+        yrlPolygon.fillColor = nil
+        powellPolygon.fillColor = nil
     }
     
-    @objc func centerView()
-    {
-        print("centerView() called")
-        mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE))
-        mapView.animate(toZoom: Float(DEFAULT_ZOOM))
-        //mapView.updateFocusIfNeeded()
-        
-        //TODO: Move this test to another button, checking if geofence works
-        let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
-        print("Result of geofencing \(GMSGeometryContainsLocation((mapView.myLocation?.coordinate)!, YRLpath!, false))")
-        
-        updateOccupancy()
-    }
-
-    func updateOccupancy(){
-        //
-    }
     
     
     override func didReceiveMemoryWarning()
@@ -114,5 +149,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     {
         print("\(marker.title ?? "nil marker title") clicked!")
         return true;
+        
+    }
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            // authorized location status when app is in use; update current location
+            locationManager.startUpdatingLocation()
+            // implement additional logic if needed...
+        }
+        // implement logic for other status values if needed...
     }
 }

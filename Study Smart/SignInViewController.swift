@@ -96,12 +96,13 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     @objc func updateInfo()
     {
         print("updateInfo() called")
-        // TODO:
-        // Should be a delegate method to be called when the sign in process is over.
-        
-        if((GIDSignIn.sharedInstance().currentUser) != nil) {
-            //self.usernameLabel.text = GIDSignIn.sharedInstance().currentUser.profile.name
+        if(GIDSignIn.sharedInstance() != nil && user == nil){
+            user = User(id: GIDSignIn.sharedInstance().currentUser.userID, name: GIDSignIn.sharedInstance().currentUser.profile.name, email: GIDSignIn.sharedInstance().currentUser.profile.email)
+            
+            
         }
+        
+
     }
 }
 
