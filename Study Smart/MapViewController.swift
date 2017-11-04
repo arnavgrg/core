@@ -18,6 +18,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     let CENTER_LATITUDE = Locations.UCLA.latitude
     let CENTER_LONGITUDE = Locations.UCLA.longitude
     let DEFAULT_ZOOM = 15.0
+    let upleft = CLLocationCoordinate2D(latitude: 34.072449, longitude: -118.450121)
+    let downright = CLLocationCoordinate2D(latitude: 34.063272, longitude: -118.440492)
+
+    var pins:[Pin] = []
     
     override func loadView()
     {
@@ -31,6 +35,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
         let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: mapView)
+        
+        
+        mapView.cameraTargetBounds = GMSCoordinateBounds(coordinate: upleft, coordinate: downright)
         
         // TODO: Fix the visible area of the map (UCLA).
         setupCenterButton()
@@ -67,10 +74,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
         powellPolygon.map = mapView
         
+        powellPin.icon = UIImage(named: "test")
+        
         //Setting up YRL's pin
         let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
         let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
         yrlPolygon.map = mapView
+        
+        pins.append(yrlPin)
+        pins.append(powellPin)
     }
     
     @objc func centerView()
@@ -83,8 +95,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         //TODO: Move this test to another button, checking if geofence works
         let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
         print("Result of geofencing \(GMSGeometryContainsLocation((mapView.myLocation?.coordinate)!, YRLpath!, false))")
+        
+        updateOccupancy()
     }
 
+    func updateOccupancy(){
+        //
+    }
+    
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
