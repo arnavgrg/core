@@ -11,7 +11,7 @@ import GoogleSignIn
 import GoogleMaps
 import Material
 
-class ViewController: UIViewController, GIDSignInUIDelegate
+class SignInViewController: UIViewController, GIDSignInUIDelegate
 {
     var signInButton: GIDSignInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     var signOutButton: UIButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -98,8 +98,6 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         print("updateInfo() called")
         if(GIDSignIn.sharedInstance() != nil && user == nil){
             user = User(id: GIDSignIn.sharedInstance().currentUser.userID, name: GIDSignIn.sharedInstance().currentUser.profile.name, email: GIDSignIn.sharedInstance().currentUser.profile.email)
-            
-            
         }
         
 

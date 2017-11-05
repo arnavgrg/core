@@ -16,7 +16,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
     var locationManager: CLLocationManager!
-    
     let CENTER_LATITUDE = Locations.UCLA.latitude
     let CENTER_LONGITUDE = Locations.UCLA.longitude
     let DEFAULT_ZOOM = 15.0
@@ -29,14 +28,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     {
         // Create a GMSCameraPosition that tells the map to display UCLA
         self.camera = GMSCameraPosition.camera(withLatitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE, zoom: Float(DEFAULT_ZOOM))
-        mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         mapView.isMyLocationEnabled = true
-        view = mapView
+        view = self.mapView
+        self.mapView.delegate = self
         
         
         // Creates a marker in the center of the map.
-        let marker = GMSMarker()
-        let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: mapView)
+        let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: self.mapView)
         
         mapView.cameraTargetBounds = GMSCoordinateBounds(coordinate: upleft, coordinate: downright)
         
@@ -90,7 +89,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         // Discuss how are we getting info.
     }
     
-    
     func setupGeoTestButton() {
         let geoTestButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         geoTestButton.addTarget(self, action:#selector(geoTest), for: .touchUpInside)
@@ -120,15 +118,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         powellPolygon.map = mapView
         
         powellPin.icon = UIImage(named: "bluepowell")
-        
-
-        
+        powellPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         //Setting up YRL's pin
         let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
         let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
         yrlPolygon.fillColor = nil
         yrlPolygon.map = mapView
         yrlPin.icon = UIImage(named: "blueyrl")
+        yrlPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
         pins.append(yrlPin)
         pins.append(powellPin)
@@ -138,19 +135,47 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     
+//    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool
+//    {
+//        print("\(marker.title ?? "nil marker title") clicked!")
+//
+//        return true;
+//    }
     
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+     //MARK: Needed to create the custom info window
+
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        let infoWindow: CustomInfoView = Bundle.main.loadNibNamed("infoView", owner: nil, options: nil)?.first as! CustomInfoView
+        infoWindow.locationName.text = marker.title
+        print(infoWindow.locationName.text ?? "nil")
+        return infoWindow
     }
+ 
     
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool
-    {
-        print("\(marker.title ?? "nil marker title") clicked!")
-        return true;
-        
+    // MARK: Needed to create the custom info window
+   /*
+     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        if (locationMarker != nil){
+            guard let location = locationMarker?.position else {
+                print("locationMarker is nil")
+                return
+            }
+            infoWindow.center = mapView.projection.point(for: location)
+            infoWindow.center.y = infoWindow.center.y - sizeForOffset(view: infoWindow)
+        }
     }
+     */
+    
+    // MARK: Needed to create the custom info window
+    /*
+ func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        infoWindow.removeFromSuperview()
+    }
+ */
+    
+    
+    
+    
     private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
             // authorized location status when app is in use; update current location
@@ -159,4 +184,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         // implement logic for other status values if needed...
     }
+
+    
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
 }
