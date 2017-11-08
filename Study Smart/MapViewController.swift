@@ -21,6 +21,7 @@ class MapViewController: UIViewController
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
     var locationManager: CLLocationManager!
+    var detailView: CustomDetailWindow!
 
     var pins:[Pin] = []
     
@@ -52,6 +53,7 @@ class MapViewController: UIViewController
         setupCenterButton()
         setupGeoTestButton()
         setupLibraryPins()
+        setupDetailView()
     }
     
     func updateOccupancy()
@@ -123,6 +125,22 @@ extension MapViewController
         yrlPolygon.fillColor = nil
         powellPolygon.fillColor = nil
     }
+    
+    func setupDetailView()
+    {
+        detailView = CustomDetailWindow(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(detailView)
+        
+        NSLayoutConstraint(item: detailView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: -20).isActive = true
+        
+        detailView.layoutIfNeeded()
+        detailView.label.text = "TEST"
+        detailView.isHidden = true
+    }
 }
 
 @objc
@@ -153,6 +171,12 @@ extension MapViewController: GMSMapViewDelegate
         let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 100, height: 50)))
         infoWindow.label.text = marker.title
         return infoWindow
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
+    {
+        detailView.label.text = marker.title
+        detailView.isHidden = false
     }
     
     // MARK: Needed to create the custom info window

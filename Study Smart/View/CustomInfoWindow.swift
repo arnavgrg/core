@@ -26,6 +26,14 @@ class CustomInfoWindow: UIView
     
     func configureView()
     {
+        setupLabel()
+    }
+}
+
+extension CustomInfoWindow
+{
+    func setupLabel()
+    {
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)

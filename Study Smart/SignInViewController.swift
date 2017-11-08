@@ -13,8 +13,8 @@ import Material
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate
 {
-    var signInButton: GIDSignInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    var signOutButton: UIButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    var signInButton: GIDSignInButton!
+    var signOutButton: UIButton!
     
     //Debug buttons
     var mapScreenButton: UIButton = UIButton()
@@ -57,6 +57,7 @@ extension SignInViewController
 {
     func setupSignInButton() //TODO: Sign in button is a different size and design than everything else
     {
+        signInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.colorScheme = GIDSignInButtonColorScheme.light
         signInButton.style = .wide
@@ -72,6 +73,7 @@ extension SignInViewController
     
     func setupSignOutButton()
     {
+        signOutButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         signOutButton.addTarget(self, action:#selector(signOut), for: .touchUpInside)
         signOutButton.translatesAutoresizingMaskIntoConstraints = false
         signOutButton.setTitle("Sign Out", for: .normal)
