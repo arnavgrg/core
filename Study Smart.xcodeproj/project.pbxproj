@@ -21,8 +21,7 @@
 		27F088CD1FB27C5400A2F0C6 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088B91FB27C5400A2F0C6 /* Locations.swift */; };
 		27F088CE1FB27C5400A2F0C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088BA1FB27C5400A2F0C6 /* User.swift */; };
 		27F088CF1FB27C5400A2F0C6 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088BB1FB27C5400A2F0C6 /* SignInViewController.swift */; };
-		27F088D01FB27C5400A2F0C6 /* CustomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088BE1FB27C5400A2F0C6 /* CustomInfoView.swift */; };
-		27F088D11FB27C5400A2F0C6 /* infoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F088BF1FB27C5400A2F0C6 /* infoView.xib */; };
+		27F088D01FB27C5400A2F0C6 /* CustomInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */; };
 		27F088D21FB27C5400A2F0C6 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088C01FB27C5400A2F0C6 /* Pin.swift */; };
 		5F212A374E40F330D06BE668 /* Pods_Study_SmartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA9CD8E1325C00969274AA9 /* Pods_Study_SmartUITests.framework */; };
 		A081B412521623598B0D7080 /* Pods_Study_Smart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */; };
@@ -69,8 +68,7 @@
 		27F088BA1FB27C5400A2F0C6 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		27F088BB1FB27C5400A2F0C6 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		27F088BC1FB27C5400A2F0C6 /* Study Smart-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Study Smart-Bridging-Header.h"; sourceTree = "<group>"; };
-		27F088BE1FB27C5400A2F0C6 /* CustomInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfoView.swift; sourceTree = "<group>"; };
-		27F088BF1FB27C5400A2F0C6 /* infoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = infoView.xib; sourceTree = "<group>"; };
+		27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfoWindow.swift; sourceTree = "<group>"; };
 		27F088C01FB27C5400A2F0C6 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Study_Smart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76BE624BEB2DB2E5731DAD00 /* Pods_Study_SmartTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Study_SmartTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,8 +179,7 @@
 		27F088BD1FB27C5400A2F0C6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				27F088BE1FB27C5400A2F0C6 /* CustomInfoView.swift */,
-				27F088BF1FB27C5400A2F0C6 /* infoView.xib */,
+				27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */,
 				27F088C01FB27C5400A2F0C6 /* Pin.swift */,
 			);
 			path = View;
@@ -328,7 +325,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27F088D11FB27C5400A2F0C6 /* infoView.xib in Resources */,
 				27F088C41FB27C5400A2F0C6 /* Main.storyboard in Resources */,
 				27F088C51FB27C5400A2F0C6 /* GoogleService-Info.plist in Resources */,
 				27F088C21FB27C5400A2F0C6 /* Assets.xcassets in Resources */,
@@ -523,7 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27F088CF1FB27C5400A2F0C6 /* SignInViewController.swift in Sources */,
-				27F088D01FB27C5400A2F0C6 /* CustomInfoView.swift in Sources */,
+				27F088D01FB27C5400A2F0C6 /* CustomInfoWindow.swift in Sources */,
 				27F088C11FB27C5400A2F0C6 /* AppDelegate.swift in Sources */,
 				27F088D21FB27C5400A2F0C6 /* Pin.swift in Sources */,
 				27F088CB1FB27C5400A2F0C6 /* Location.swift in Sources */,

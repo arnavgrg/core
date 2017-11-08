@@ -150,9 +150,8 @@ extension MapViewController: GMSMapViewDelegate
 {
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
-        let infoWindow: CustomInfoView = Bundle.main.loadNibNamed("infoView", owner: nil, options: nil)?.first as! CustomInfoView
-        infoWindow.locationName.text = marker.title
-        print(infoWindow.locationName.text ?? "nil")
+        let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 100, height: 50)))
+        infoWindow.label.text = marker.title
         return infoWindow
     }
     
