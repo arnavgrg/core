@@ -15,8 +15,12 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
 {
     var signInButton: GIDSignInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     var signOutButton: UIButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    
+    //Debug buttons
     var mapScreenButton: UIButton = UIButton()
     var updateInfoButton: UIButton = UIButton()
+    //
+    
     var user: User?
     
     override func viewDidLoad()
@@ -26,21 +30,32 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
         
         GIDSignIn.sharedInstance().uiDelegate = self
         
+        //Debug buttons
+        //TODO: Clean up and remove
         updateInfoButton.frame = CGRect(x: 250, y: 300, width: 40, height: 40)
         mapScreenButton.frame = CGRect(x: 150, y: 400, width: 40, height: 40)
         updateInfoButton.backgroundColor = UIColor.black
         updateInfoButton.addTarget(self, action:#selector(updateInfo), for: .touchUpInside)
         mapScreenButton.backgroundColor = UIColor.green
         mapScreenButton.addTarget(self, action:#selector(goToMap), for: .touchUpInside)
-        
         view.addSubview(updateInfoButton)
         view.addSubview(mapScreenButton)
+        //
         
         setupSignOutButton()
         setupSignInButton()
     }
     
-    func setupSignInButton()
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension SignInViewController
+{
+    func setupSignInButton() //TODO: Sign in button is a different size and design than everything else
     {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.colorScheme = GIDSignInButtonColorScheme.light
@@ -57,7 +72,7 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
     
     func setupSignOutButton()
     {
-        signOutButton.addTarget(self, action:#selector(didTapSignOut), for: .touchUpInside)
+        signOutButton.addTarget(self, action:#selector(signOut), for: .touchUpInside)
         signOutButton.translatesAutoresizingMaskIntoConstraints = false
         signOutButton.setTitle("Sign Out", for: .normal)
         signOutButton.backgroundColor = Color.lightBlue.base
@@ -67,40 +82,37 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
         NSLayoutConstraint(item: signOutButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
         NSLayoutConstraint(item: signOutButton, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leadingMargin, multiplier: 1.0, constant: 20).isActive = true
         NSLayoutConstraint(item: signOutButton, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailingMargin, multiplier: 1.0, constant: -20).isActive = true
-
+        
         
         signOutButton.layoutIfNeeded()
     }
+}
 
-    override func didReceiveMemoryWarning()
+@objc
+extension SignInViewController
+{
+    func signOut()
     {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @objc func didTapSignOut()
-    {
-       // print("logged out of:" + (GIDSignIn.sharedInstance().currentUser?.profile.name)!)
-        print("sign out button pressed")
+        // print("logged out of:" + (GIDSignIn.sharedInstance().currentUser?.profile.name)!)
+        print("signOut() called")
         GIDSignIn.sharedInstance().signOut()
     }
     
-    
-    @objc func goToMap()
+    func goToMap()
     {
         print("goToMap() called")
+        
         let mapViewController = MapViewController()
         self.present(mapViewController, animated: true, completion: nil)
     }
-
-    @objc func updateInfo()
+    
+    func updateInfo()
     {
         print("updateInfo() called")
+        
         if(GIDSignIn.sharedInstance() != nil && user == nil){
             user = User(id: GIDSignIn.sharedInstance().currentUser.userID, name: GIDSignIn.sharedInstance().currentUser.profile.name, email: GIDSignIn.sharedInstance().currentUser.profile.email)
         }
-        
-
     }
 }
 

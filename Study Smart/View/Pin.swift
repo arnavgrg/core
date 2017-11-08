@@ -18,6 +18,4 @@ class Pin: GMSMarker
         super.title = title
         super.map = map
     }
-    
-    
 }
