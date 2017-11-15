@@ -11,27 +11,31 @@ import Material
 
 class CustomInfoWindow: UIView
 {
-    var label: UILabel!
+
+    @IBOutlet weak var label: UILabel!
     
-    override init(frame: CGRect)
-    {
-        super.init(frame: frame)
-        configureView()
-    }
     
-    required init?(coder aDecoder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
-    }
+    
+//    override init(frame: CGRect)
+//    {
+//        super.init(frame: frame)
+//        configureView()
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder)
+//    {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     func configureView()
     {
-        setupLabel()
+      //  setupLabel()
     }
 }
 
 extension CustomInfoWindow
 {
+    /*
     func setupLabel()
     {
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -47,4 +51,7 @@ extension CustomInfoWindow
         
         layout(label).size(CGSize(width: 50, height: 25))
     }
+ */
+
+
 }
