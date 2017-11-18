@@ -41,6 +41,7 @@ class MapViewController: UIViewController
         
         // Creates a marker in the center of the map.
         let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: self.mapView)
+        uclaPin.icon = UIImage(named: "redpin")
         
         mapView.cameraTargetBounds = GMSCoordinateBounds(path: GMSPath(fromEncodedPath: Locations.UCLA.geofence)!)
     }
@@ -50,8 +51,14 @@ class MapViewController: UIViewController
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        setupCenterButton()
-        setupGeoTestButton()
+        
+        print("HELLO", UIScreen.main.applicationFrame.size.width)
+        let geotestButton = setupGeoTestButton()
+        let button1 = setupButton(distFromPrevButton: 75.0/6, orientButton: geotestButton, color: .orange)
+         let button2 = setupButton(distFromPrevButton: 75.0/6, orientButton: button1, color: .yellow)
+         let button3 = setupButton(distFromPrevButton: 75.0/6, orientButton: button2, color: .green)
+        let centerButton = setupButton(distFromPrevButton: 75.0/6, orientButton: button3, color: UIColor(red: 0.2863, green: 0.7882, blue: 0, alpha: 1.0))
+        setupCenterButton(centerButton: centerButton)
         setupLibraryPins()
         setupDetailView()
     }
@@ -71,22 +78,27 @@ class MapViewController: UIViewController
 
 extension MapViewController
 {
-    func setupCenterButton()
-    {
-        let centerButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        centerButton.addTarget(self, action:#selector(centerView), for: .touchUpInside)
-        centerButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(centerButton)
+    func setupButton(distFromPrevButton: CGFloat, orientButton: FABButton, color: UIColor) -> FABButton{
+        let button = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
         
-        NSLayoutConstraint(item: centerButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: centerButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: centerButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: centerButton, attribute: .right, relatedBy: .equal, toItem: view, attribute: .rightMargin, multiplier: 1.0, constant: -20).isActive = true
-        
-        centerButton.layoutIfNeeded()
+        NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal, toItem: orientButton, attribute: .rightMargin, multiplier: 1.0, constant: distFromPrevButton).isActive = true
+        button.layoutIfNeeded()
+        button.backgroundColor = color
+        return button
     }
     
-    func setupGeoTestButton()
+    
+    func setupCenterButton(centerButton: FABButton)
+    {
+        centerButton.addTarget(self, action:#selector(centerView), for: .touchUpInside)
+    }
+    
+    func setupGeoTestButton() -> FABButton
     {
         let geoTestButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         geoTestButton.addTarget(self, action:#selector(geoTest), for: .touchUpInside)
@@ -95,10 +107,12 @@ extension MapViewController
         NSLayoutConstraint(item: geoTestButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
         NSLayoutConstraint(item: geoTestButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
         NSLayoutConstraint(item: geoTestButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: geoTestButton, attribute: .left, relatedBy: .equal, toItem: view, attribute: .leftMargin, multiplier: 1.0, constant: 20).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .left, relatedBy: .equal, toItem: view, attribute: .leftMargin, multiplier: 1.0, constant: 75.0/6).isActive = true
         geoTestButton.translatesAutoresizingMaskIntoConstraints = false
         
         geoTestButton.layoutIfNeeded()
+        geoTestButton.backgroundColor = .red
+        return geoTestButton
         
     }
     
@@ -109,7 +123,7 @@ extension MapViewController
         let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
         powellPolygon.map = mapView
         
-        powellPin.icon = UIImage(named: "bluepowell")
+        powellPin.icon = UIImage(named: "powell_6")
         powellPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         //Setting up YRL's pin
         let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
@@ -168,7 +182,8 @@ extension MapViewController: GMSMapViewDelegate
 {
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
-        let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 100, height: 50)))
+        // let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 100, height: 50)))
+        let infoWindow = Bundle.main.loadNibNamed("CustomInfoView", owner: nil, options: nil)?.first as! CustomInfoWindow
         infoWindow.label.text = marker.title
         return infoWindow
     }

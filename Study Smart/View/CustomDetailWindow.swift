@@ -13,6 +13,8 @@ class CustomDetailWindow: UIView
 {
     var label: UILabel!
     var exitButton: FlatButton!
+    
+    var hoursView: UIView!
     //TODO: Add other fields such as percentage fill, etc
     
     override init(frame: CGRect)
@@ -43,7 +45,9 @@ extension CustomDetailWindow
         
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
-        backgroundColor = Color.lightBlue.base
+        backgroundColor = UIColor(red:0.61, green:0.82, blue:0.86, alpha:1.0)
+        
+
         
         NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
         NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0).isActive = true
@@ -58,10 +62,10 @@ extension CustomDetailWindow
         addSubview(exitButton)
         
         exitButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
-        exitButton.setTitle("Exit", for: .normal)
+        exitButton.setTitle("X", for: .normal)
         
-        NSLayoutConstraint(item: exitButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: exitButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: -50).isActive = true
+        NSLayoutConstraint(item: exitButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 10).isActive = true
+        NSLayoutConstraint(item: exitButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10).isActive = true
         
         layout(exitButton).size(CGSize(width: 100, height: 50))
     }
