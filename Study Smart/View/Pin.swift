@@ -14,11 +14,8 @@ class Pin: GMSMarker
     init(position: CLLocationCoordinate2D, title: String, map: GMSMapView)
     {
         super.init()
-        
         super.position = position
         super.title = title
         super.map = map
     }
-    
-    
 }

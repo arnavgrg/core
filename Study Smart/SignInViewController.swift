@@ -11,12 +11,16 @@ import GoogleSignIn
 import GoogleMaps
 import Material
 
-class ViewController: UIViewController, GIDSignInUIDelegate
+class SignInViewController: UIViewController, GIDSignInUIDelegate
 {
-    var signInButton: GIDSignInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    var signOutButton: UIButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    var signInButton: GIDSignInButton!
+    var signOutButton: UIButton!
+    
+    //Debug buttons
     var mapScreenButton: UIButton = UIButton()
     var updateInfoButton: UIButton = UIButton()
+    //
+    
     var user: User?
     
     override func viewDidLoad()
@@ -26,24 +30,34 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         
         GIDSignIn.sharedInstance().uiDelegate = self
         
+        //Debug buttons
+        //TODO: Clean up and remove
         updateInfoButton.frame = CGRect(x: 250, y: 300, width: 40, height: 40)
         mapScreenButton.frame = CGRect(x: 150, y: 400, width: 40, height: 40)
         updateInfoButton.backgroundColor = UIColor.black
         updateInfoButton.addTarget(self, action:#selector(updateInfo), for: .touchUpInside)
         mapScreenButton.backgroundColor = UIColor.green
         mapScreenButton.addTarget(self, action:#selector(goToMap), for: .touchUpInside)
-        
         view.addSubview(updateInfoButton)
         view.addSubview(mapScreenButton)
+        //
         
         setupSignOutButton()
         setupSignInButton()
-        
-        
     }
     
-    func setupSignInButton()
+    override func didReceiveMemoryWarning()
     {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension SignInViewController
+{
+    func setupSignInButton() //TODO: Sign in button is a different size and design than everything else
+    {
+        signInButton = GIDSignInButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.colorScheme = GIDSignInButtonColorScheme.light
         signInButton.style = .wide
@@ -59,7 +73,8 @@ class ViewController: UIViewController, GIDSignInUIDelegate
     
     func setupSignOutButton()
     {
-        signOutButton.addTarget(self, action:#selector(didTapSignOut), for: .touchUpInside)
+        signOutButton = FlatButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        signOutButton.addTarget(self, action:#selector(signOut), for: .touchUpInside)
         signOutButton.translatesAutoresizingMaskIntoConstraints = false
         signOutButton.setTitle("Sign Out", for: .normal)
         signOutButton.backgroundColor = Color.lightBlue.base
@@ -69,43 +84,37 @@ class ViewController: UIViewController, GIDSignInUIDelegate
         NSLayoutConstraint(item: signOutButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
         NSLayoutConstraint(item: signOutButton, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leadingMargin, multiplier: 1.0, constant: 20).isActive = true
         NSLayoutConstraint(item: signOutButton, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailingMargin, multiplier: 1.0, constant: -20).isActive = true
-
+        
         
         signOutButton.layoutIfNeeded()
     }
+}
 
-    override func didReceiveMemoryWarning()
+@objc
+extension SignInViewController
+{
+    func signOut()
     {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @objc func didTapSignOut()
-    {
-       // print("logged out of:" + (GIDSignIn.sharedInstance().currentUser?.profile.name)!)
-        print("sign out button pressed")
+        // print("logged out of:" + (GIDSignIn.sharedInstance().currentUser?.profile.name)!)
+        print("signOut() called")
         GIDSignIn.sharedInstance().signOut()
     }
     
-    
-    @objc func goToMap()
+    func goToMap()
     {
         print("goToMap() called")
+        
         let mapViewController = MapViewController()
         self.present(mapViewController, animated: true, completion: nil)
     }
-
-    @objc func updateInfo()
+    
+    func updateInfo()
     {
         print("updateInfo() called")
-        // TODO:
-        // Should be a delegate method to be called when the sign in process is over.
         
-        if((GIDSignIn.sharedInstance().currentUser) != nil) {
-            //self.usernameLabel.text = GIDSignIn.sharedInstance().currentUser.profile.name
+        if(GIDSignIn.sharedInstance() != nil && user == nil){
+            user = User(id: GIDSignIn.sharedInstance().currentUser.userID, name: GIDSignIn.sharedInstance().currentUser.profile.name, email: GIDSignIn.sharedInstance().currentUser.profile.email)
         }
     }
-
-
 }
 

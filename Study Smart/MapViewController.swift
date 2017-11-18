@@ -9,36 +9,40 @@
 import UIKit
 import GoogleMaps
 import Material
+import CoreLocation
 
-class MapViewController: UIViewController, GMSMapViewDelegate {
-
+class MapViewController: UIViewController
+{
+    //Global constants
+    let CENTER_LATITUDE = Locations.UCLA.latitude
+    let CENTER_LONGITUDE = Locations.UCLA.longitude
+    let DEFAULT_ZOOM = 15.0
+    
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
-    
-    let CENTER_LATITUDE = 34.0705
-    let CENTER_LONGITUDE = -118.4468
-    let DEFAULT_ZOOM = 15.0
+    var locationManager: CLLocationManager!
+    var detailView: CustomDetailWindow!
+
+    var pins:[Pin] = []
     
     override func loadView()
     {
         // Create a GMSCameraPosition that tells the map to display UCLA
         self.camera = GMSCameraPosition.camera(withLatitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE, zoom: Float(DEFAULT_ZOOM))
-        mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         mapView.isMyLocationEnabled = true
-        view = mapView
+        view = self.mapView
+        self.mapView.delegate = self
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         
         // Creates a marker in the center of the map.
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: 34.07, longitude: -118.45)
-        marker.title = "UCLA"
-        marker.snippet = "California"
-        marker.map = mapView
+        let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: self.mapView)
         
-        
-        // TODO: Fix the visible area of the map (UCLA).
-        setupCenterButton()
-        
+        mapView.cameraTargetBounds = GMSCoordinateBounds(path: GMSPath(fromEncodedPath: Locations.UCLA.geofence)!)
     }
     
     override func viewDidLoad()
@@ -46,9 +50,27 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupCenterButton()
+        setupGeoTestButton()
         setupLibraryPins()
+        setupDetailView()
     }
     
+    func updateOccupancy()
+    {
+        //TODO: Discuss how are we getting info.
+    }
+    
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+}
+
+extension MapViewController
+{
     func setupCenterButton()
     {
         let centerButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -64,74 +86,131 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         centerButton.layoutIfNeeded()
     }
     
-    //Useful links:
-    //https://developers.google.com/maps/documentation/utilities/polylineutility
-    //https://www.latlong.net
-    func setupLibraryPins()
+    func setupGeoTestButton()
     {
-        //TODO: Clean this up massively, just for testing purposes
-        let YRL = CLLocationCoordinate2D(latitude: 34.075221, longitude: -118.441514)
-        let pin = Pin(position: YRL, title: "YRL", map: mapView)
+        let geoTestButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        geoTestButton.addTarget(self, action:#selector(geoTest), for: .touchUpInside)
+        view.addSubview(geoTestButton)
         
-        //This works! YRL library geofence.
-        let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
-        let polygon = GMSPolygon(path: YRLpath)
-        polygon.map = mapView
- 
-        let Powell = CLLocationCoordinate2D(latitude: 34.071796, longitude: -118.442185)
-        let pin2 = Pin(position: Powell, title: "Powell", map: mapView)
+        NSLayoutConstraint(item: geoTestButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: geoTestButton, attribute: .left, relatedBy: .equal, toItem: view, attribute: .leftMargin, multiplier: 1.0, constant: 20).isActive = true
+        geoTestButton.translatesAutoresizingMaskIntoConstraints = false
         
-        //This works! YRL library geofence.
-        let Powellpath = GMSPath(fromEncodedPath: "qo}nEzc|qU?z@a@@?p@^A@x@eD@?iD")
-        let polygon2 = GMSPolygon(path: Powellpath)
-        polygon2.map = mapView
+        geoTestButton.layoutIfNeeded()
         
-        /*
-        let path = GMSMutablePath()
-        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.0))
-        path.add(CLLocationCoordinate2D(latitude: 37.45, longitude: -122.0))
-        path.add(CLLocationCoordinate2D(latitude: 37.45, longitude: -122.2))
-        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.2))
-        path.add(CLLocationCoordinate2D(latitude: 37.36, longitude: -122.0))
-        
-        let rectangle = GMSPolyline(path: path)
-        rectangle.map = mapView
-         */
     }
     
-    @objc func centerView()
+    func setupLibraryPins()
+    {
+        //Setting up Powell's pin
+        let powellPin = Pin(position: CLLocationCoordinate2DMake(Locations.POWELL_LIBRARY.latitude, Locations.POWELL_LIBRARY.longitude), title: Locations.POWELL_LIBRARY.name, map: mapView)
+        let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
+        powellPolygon.map = mapView
+        
+        powellPin.icon = UIImage(named: "bluepowell")
+        powellPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
+        //Setting up YRL's pin
+        let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
+        let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
+        yrlPolygon.fillColor = nil
+        yrlPolygon.map = mapView
+        yrlPin.icon = UIImage(named: "blueyrl")
+        yrlPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
+        
+        pins.append(yrlPin)
+        pins.append(powellPin)
+        
+        yrlPolygon.fillColor = nil
+        powellPolygon.fillColor = nil
+    }
+    
+    func setupDetailView()
+    {
+        detailView = CustomDetailWindow(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(detailView)
+        
+        NSLayoutConstraint(item: detailView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: -20).isActive = true
+        
+        detailView.layoutIfNeeded()
+        detailView.label.text = "TEST"
+        detailView.isHidden = true
+    }
+}
+
+@objc
+extension MapViewController
+{
+    func centerView()
     {
         print("centerView() called")
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE))
         mapView.animate(toZoom: Float(DEFAULT_ZOOM))
         //mapView.updateFocusIfNeeded()
         
-        //TODO: Move this test to another button, checking if geofence works
-        let YRLpath = GMSPath(fromEncodedPath: "mi~nEde|qUCcE~BE?hE")
-        print("Result of geofencing \(GMSGeometryContainsLocation((mapView.myLocation?.coordinate)!, YRLpath!, false))")
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        updateOccupancy()
     }
     
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool
+    func geoTest()
     {
-        print("\(marker.title ?? "nil marker title") clicked!")
-        return true;
+        let YRLpath = GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence)
+        let result = GMSGeometryContainsLocation((mapView.myLocation?.coordinate)!, YRLpath!, false)
+        print("Result of geofencing \(result)")
+    }
+}
+
+extension MapViewController: GMSMapViewDelegate
+{
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
+    {
+        let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 100, height: 50)))
+        infoWindow.label.text = marker.title
+        return infoWindow
     }
     
-
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
+    {
+        detailView.label.text = marker.title
+        detailView.isHidden = false
+    }
+    
+    // MARK: Needed to create the custom info window
     /*
-    // MARK: - Navigation
+     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+     if (locationMarker != nil){
+     guard let location = locationMarker?.position else {
+     print("locationMarker is nil")
+     return
+     }
+     infoWindow.center = mapView.projection.point(for: location)
+     infoWindow.center.y = infoWindow.center.y - sizeForOffset(view: infoWindow)
+     }
+     }
+     */
+    
+    // MARK: Needed to create the custom info window
+    /*
+     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+     infoWindow.removeFromSuperview()
+     }
+     */
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension MapViewController: CLLocationManagerDelegate
+{
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
+    {
+        if status == .authorizedWhenInUse
+        {
+            // authorized location status when app is in use; update current location
+            locationManager.startUpdatingLocation()
+            // implement additional logic if needed...
+        }
+        // implement logic for other status values if needed...
     }
-    */
-
 }
