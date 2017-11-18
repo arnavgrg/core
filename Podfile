@@ -12,6 +12,7 @@ target 'Study Smart' do
   pod 'Google/SignIn'
   pod 'Google'
   pod 'Material'
+  pod 'Alamofire', '~> 4.2.0'
 
   target 'Study SmartTests' do
     inherit! :search_paths
