@@ -11,47 +11,10 @@ import GoogleSignIn
 import GoogleMaps
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!)
-    {
-        if (error == nil)
-        {
-            if (user.hostedDomain != nil && (user.hostedDomain! == "g.ucla.edu" || user.hostedDomain! == "ucla.edu")) //domain check
-            {
-                // Perform any operations on signed in user here.
-                
-                let userId = user.userID                  // For client-side use only!
-                let idToken = user.authentication.idToken // Safe to send to the server
-                let fullName = user.profile.name
-                let givenName = user.profile.givenName
-                let familyName = user.profile.familyName
-                let email = user.profile.email
-                
-                // ...
-                print(userId ?? "nil")
-                print(fullName ?? "nil")
-            }
-            else
-            {
-                print("Domain is not ucla affiliated, it is \(user.hostedDomain)")
-                GIDSignIn.sharedInstance().signOut()
-            }
-        }
-        else
-        {
-            print("\(error.localizedDescription)")
-        }
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!)
-    {
-        // Perform any operations when the user disconnects from app here.
-        // ...
-    }
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
         // Override point for customization after application launch.
@@ -61,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(configureError!)")
         
-        GIDSignIn.sharedInstance().delegate = self
+        //GIDSignIn.sharedInstance().delegate = self
         
         return true
     }
