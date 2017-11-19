@@ -36,6 +36,9 @@ open class NavigationBar: UINavigationBar {
         return 0 < bounds.width && 0 < bounds.height && nil != superview
     }
     
+    /// Detail UILabel when in landscape for iOS 11.
+    fileprivate var toolbarToText: [Toolbar: String?]?
+    
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: bounds.width, height: bounds.height)
     }
@@ -154,9 +157,13 @@ open class NavigationBar: UINavigationBar {
         isTranslucent = false
         depthPreset = .depth1
         contentScaleFactor = Screen.scale
-		backButtonImage = Icon.cm.arrowBack
         contentEdgeInsetsPreset = .square1
         interimSpacePreset = .interimSpace3
+        backButtonImage = Icon.cm.arrowBack
+        
+        if #available(iOS 11, *) {
+            toolbarToText = [:]
+        }
         
         let image = UIImage()
         shadowImage = image
@@ -175,17 +182,26 @@ internal extension NavigationBar {
             return
         }
         
-        item.toolbar.backgroundColor = .clear
+        let toolbar = item.toolbar
+        toolbar.backgroundColor = .clear
+        toolbar.interimSpace = interimSpace
+        toolbar.contentEdgeInsets = contentEdgeInsets
         
-        item.titleView = item.toolbar
-        
-        guard let v = item.titleView as? Toolbar else {
-            return
+        if #available(iOS 11, *) {
+            if Application.shouldStatusBarBeHidden {
+                toolbar.contentEdgeInsetsPreset = .none
+                
+                if nil != toolbar.detailLabel.text {
+                    toolbarToText?[toolbar] = toolbar.detailLabel.text
+                    toolbar.detailLabel.text = nil
+                }
+            } else if nil != toolbarToText?[toolbar] {
+                toolbar.detailLabel.text = toolbarToText?[toolbar] ?? nil
+                toolbarToText?[toolbar] = nil
+            }
         }
         
-        removeConstraints(constraints)
-        v.contentEdgeInsets = contentEdgeInsets
-        v.interimSpace = interimSpace
-        v.frame = bounds
+        item.titleView = toolbar
+        item.titleView!.frame = bounds
     }
 }

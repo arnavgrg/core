@@ -52,13 +52,8 @@ class MapViewController: UIViewController
 
         // Do any additional setup after loading the view.
         
-        print("HELLO", UIScreen.main.applicationFrame.size.width)
-        let geotestButton = setupGeoTestButton()
-        let button1 = setupButton(distFromPrevButton: 75.0/6, orientButton: geotestButton, color: .orange)
-         let button2 = setupButton(distFromPrevButton: 75.0/6, orientButton: button1, color: .yellow)
-         let button3 = setupButton(distFromPrevButton: 75.0/6, orientButton: button2, color: .green)
-        let centerButton = setupButton(distFromPrevButton: 75.0/6, orientButton: button3, color: UIColor(red: 0.2863, green: 0.7882, blue: 0, alpha: 1.0))
-        setupCenterButton(centerButton: centerButton)
+       
+        setupCenterButton()
         setupLibraryPins()
         setupDetailView()
     }
@@ -78,61 +73,62 @@ class MapViewController: UIViewController
 
 extension MapViewController
 {
-    func setupButton(distFromPrevButton: CGFloat, orientButton: FABButton, color: UIColor) -> FABButton{
-        let button = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(button)
-        
-        NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal, toItem: orientButton, attribute: .rightMargin, multiplier: 1.0, constant: distFromPrevButton).isActive = true
-        button.layoutIfNeeded()
-        button.backgroundColor = color
-        return button
-    }
-    
-    
-    func setupCenterButton(centerButton: FABButton)
+   
+    func setupCenterButton()
     {
+        let centerButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        centerButton.addTarget(self, action:#selector(centerView), for: .touchUpInside)
+        view.addSubview(centerButton)
+        
+        NSLayoutConstraint(item: centerButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: centerButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: centerButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: centerButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0.0).isActive = true
+        centerButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        centerButton.layoutIfNeeded()
+        centerButton.backgroundColor = .red
         centerButton.addTarget(self, action:#selector(centerView), for: .touchUpInside)
     }
-    
-    func setupGeoTestButton() -> FABButton
-    {
-        let geoTestButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        geoTestButton.addTarget(self, action:#selector(geoTest), for: .touchUpInside)
-        view.addSubview(geoTestButton)
-        
-        NSLayoutConstraint(item: geoTestButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: geoTestButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: geoTestButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottomMargin, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: geoTestButton, attribute: .left, relatedBy: .equal, toItem: view, attribute: .leftMargin, multiplier: 1.0, constant: 75.0/6).isActive = true
-        geoTestButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        geoTestButton.layoutIfNeeded()
-        geoTestButton.backgroundColor = .red
-        return geoTestButton
-        
-    }
+
     
     func setupLibraryPins()
     {
+  
         //Setting up Powell's pin
         let powellPin = Pin(position: CLLocationCoordinate2DMake(Locations.POWELL_LIBRARY.latitude, Locations.POWELL_LIBRARY.longitude), title: Locations.POWELL_LIBRARY.name, map: mapView)
         let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
         powellPolygon.map = mapView
         
-        powellPin.icon = UIImage(named: "powell_6")
+        powellPin.icon = UIImage(named: "POWELL")
         powellPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
+        
         //Setting up YRL's pin
         let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
         let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
         yrlPolygon.fillColor = nil
         yrlPolygon.map = mapView
-        yrlPin.icon = UIImage(named: "blueyrl")
+        yrlPin.icon = UIImage(named: "YRL")
         yrlPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
+        //Setting up Business's pin
+        let businessPin = Pin(position: CLLocationCoordinate2DMake(Locations.BUSINESS_LIBRARY.latitude, Locations.BUSINESS_LIBRARY.longitude), title: Locations.BUSINESS_LIBRARY.name, map: mapView)
+        // let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
+        // powellPolygon.map = mapView
+        
+        businessPin.icon = UIImage(named: "BUSINESS_LIBRARY")
+        businessPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
+        
+        //Setting up Business's pin
+        let lawPin = Pin(position: CLLocationCoordinate2DMake(Locations.LAW_LIBRARY.latitude, Locations.LAW_LIBRARY.longitude), title: Locations.LAW_LIBRARY.name, map: mapView)
+        // let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
+        // powellPolygon.map = mapView
+        
+        lawPin.icon = UIImage(named: "LAW_LIBRARY")
+        lawPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
+        
+        pins.append(lawPin)
+        pins.append(businessPin)
         pins.append(yrlPin)
         pins.append(powellPin)
         
@@ -146,10 +142,10 @@ extension MapViewController
         detailView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailView)
         
-        NSLayoutConstraint(item: detailView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 20).isActive = true
-        NSLayoutConstraint(item: detailView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 20).isActive = true
-        NSLayoutConstraint(item: detailView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: detailView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: detailView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
         
         detailView.layoutIfNeeded()
         detailView.label.text = "TEST"
@@ -182,8 +178,7 @@ extension MapViewController: GMSMapViewDelegate
 {
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
-        // let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 100, height: 50)))
-        let infoWindow = Bundle.main.loadNibNamed("CustomInfoView", owner: nil, options: nil)?.first as! CustomInfoWindow
+        let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 225, height: 145)))
         infoWindow.label.text = marker.title
         return infoWindow
     }

@@ -35,18 +35,6 @@ open class TabItem: FlatButton {
         super.prepare()
         pulseAnimation = .none
     }
-    
-    open override var isHighlighted: Bool {
-        didSet {
-            tintColor = titleColor(for: isHighlighted ? .highlighted : isSelected ? .selected : .normal)
-        }
-    }
-    
-    open override var isSelected: Bool {
-        didSet {
-            tintColor = titleColor(for: isSelected ? .selected : .normal)
-        }
-    }
 }
 
 @objc(TabItemState)
@@ -173,7 +161,6 @@ open class TabBar: Bar {
         willSet {
             selectedTabItem?.isSelected = false
         }
-        
         didSet {
             selectedTabItem?.isSelected = true
         }
@@ -236,7 +223,7 @@ open class TabBar: Bar {
     }
 
     /// A reference to the line UIView.
-    fileprivate let line = UIView()
+    open let line = UIView()
     
     /// A value for the line alignment.
     @objc
@@ -254,6 +241,17 @@ open class TabBar: Bar {
         }
         set(value) {
             line.frame.size.height = value
+        }
+    }
+    
+    /// The line color.
+    @objc
+    open var lineColor: UIColor {
+        get {
+            return lineColorForState[.selected]!
+        }
+        set(value) {
+            setLineColor(value, for: .selected)
         }
     }
     
@@ -398,7 +396,7 @@ fileprivate extension TabBar {
         guard shouldNotAnimateLineView else {
             line.animate(.duration(0),
                          .size(width: v.bounds.width, height: lineHeight),
-                         .position(x: v.center.x, y: .bottom == lineAlignment ? bounds.height - lineHeight / 2 : lineHeight / 2))
+                         .position(x: v.center.x, y: .bottom == lineAlignment ? scrollView.bounds.height - lineHeight / 2 : lineHeight / 2))
             return
         }
         
@@ -498,18 +496,18 @@ extension TabBar {
 fileprivate extension TabBar {
     /// Updates the tabItems colors.
     func updateTabItemColors() {
-        let normalColor = tabItemsColorForState[.normal]
-        let selectedColor = tabItemsColorForState[.selected]
-        let highlightedColor = tabItemsColorForState[.highlighted]
+        let normalColor = tabItemsColorForState[.normal]!
+        let selectedColor = tabItemsColorForState[.selected]!
+        let highlightedColor = tabItemsColorForState[.highlighted]!
         
         for v in tabItems {
             v.setTitleColor(normalColor, for: .normal)
+            v.setImage(v.image?.tint(with: normalColor), for: .normal)
             v.setTitleColor(selectedColor, for: .selected)
+            v.setImage(v.image?.tint(with: selectedColor), for: .selected)
             v.setTitleColor(highlightedColor, for: .highlighted)
-            v.tintColor = normalColor
+            v.setImage(v.image?.tint(with: highlightedColor), for: .highlighted)
         }
-        
-        selectedTabItem?.tintColor = selectedColor
     }
     
     /// Updates the line colors.
@@ -536,7 +534,7 @@ fileprivate extension TabBar {
         
         line.animate(.duration(0.25),
                      .size(width: tabItem.bounds.width, height: lineHeight),
-                     .position(x: tabItem.center.x, y: .bottom == lineAlignment ? bounds.height - lineHeight / 2 : lineHeight / 2),
+                     .position(x: tabItem.center.x, y: .bottom == lineAlignment ? scrollView.bounds.height - lineHeight / 2 : lineHeight / 2),
                      .completion({ [weak self, isTriggeredByUserInteraction = isTriggeredByUserInteraction, tabItem = tabItem, completion = completion] in
                         guard let s = self else {
                             return

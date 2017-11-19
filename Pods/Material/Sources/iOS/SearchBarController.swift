@@ -36,13 +36,13 @@ public enum SearchBarAlignment: Int {
     case bottom
 }
 
-public extension UIViewController {
+extension UIViewController {
     /**
      A convenience property that provides access to the SearchBarController.
      This is the recommended method of accessing the SearchBarController
      through child UIViewControllers.
      */
-    var searchBarController: SearchBarController? {
+    public var searchBarController: SearchBarController? {
         return traverseViewControllerHierarchyForClassType()
     }
 }
@@ -96,6 +96,7 @@ fileprivate extension SearchBarController {
             case .top:
                 container.frame.origin.y = q + p
                 container.frame.size.height = h
+                
             case .bottom:
                 container.frame.origin.y = q
                 container.frame.size.height = h

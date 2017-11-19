@@ -82,7 +82,7 @@ public struct Grid {
     internal weak var context: UIView?
     
     /// Defer the calculation.
-    public var deferred = false
+    public var isDeferred = false
     
     /// Number of rows.
     public var rows: Int {
@@ -179,18 +179,18 @@ public struct Grid {
     
     /// Begins a deferred block.
     public mutating func begin() {
-        deferred = true
+        isDeferred = true
     }
     
     /// Completes a deferred block.
     public mutating func commit() {
-        deferred = false
+        isDeferred = false
         reload()
     }
     
     /// Reload the button layout.
     public func reload() {
-        guard !deferred else {
+        guard !isDeferred else {
             return
         }
         
@@ -266,19 +266,18 @@ public struct Grid {
     }
 }
 
-/// A memory reference to the Grid instance for UIView extensions.
-fileprivate var GridKey: UInt8 = 0
+fileprivate var AssociatedInstanceKey: UInt8 = 0
 
 extension UIView {
     /// Grid reference.
     public var grid: Grid {
         get {
-            return AssociatedObject.get(base: self, key: &GridKey) {
+            return AssociatedObject.get(base: self, key: &AssociatedInstanceKey) {
                 return Grid(context: self)
             }
         }
         set(value) {
-            AssociatedObject.set(base: self, key: &GridKey, value: value)
+            AssociatedObject.set(base: self, key: &AssociatedInstanceKey, value: value)
         }
     }
     

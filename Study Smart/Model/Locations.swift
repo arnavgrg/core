@@ -21,4 +21,8 @@ struct Locations
     
     //Charles E. Young Research Library
     static let CEYR_LIBRARY = Location(name: "YRL", geofence: "mi~nEde|qUCcE~BE?hE", latitude: 34.075221, longitude: -118.441514)
+    
+    static let LAW_LIBRARY = Location(name: "Darling Law Library", geofence: "", latitude: 34.0729138, longitude: -118.4384435)
+    
+    static let BUSINESS_LIBRARY = Location(name: "Rosenfeld Business Library", geofence: "", latitude: 34.0738081, longitude: -118.4436508)
 }

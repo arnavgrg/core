@@ -120,6 +120,7 @@ open class NavigationController: UINavigationController {
      */
 	open func prepare() {
         isMotionEnabled = true
+        navigationBar.frame.size.width = view.bounds.width
         navigationBar.heightPreset = .normal
         
         view.clipsToBounds = true
@@ -135,6 +136,7 @@ open class NavigationController: UINavigationController {
     
     /// Calls the layout functions for the view heirarchy.
     open func layoutSubviews() {
+        navigationBar.setNeedsUpdateConstraints()
         navigationBar.updateConstraints()
         navigationBar.setNeedsLayout()
         navigationBar.layoutIfNeeded()
@@ -156,11 +158,11 @@ extension NavigationController: UINavigationBarDelegate {
                 item.backButton.image = v.backButtonImage
             }
             
-            item.backButton.addTarget(self, action: #selector(handle(backButton:)), for: .touchUpInside)
-            
             if !item.backButton.isHidden {
                 item.leftViews.insert(item.backButton, at: 0)
             }
+            
+            item.backButton.addTarget(self, action: #selector(handle(backButton:)), for: .touchUpInside)
             
             item.hidesBackButton = false
             item.setHidesBackButton(true, animated: false)

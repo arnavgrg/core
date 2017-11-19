@@ -36,13 +36,13 @@ public enum ToolbarAlignment: Int {
     case bottom
 }
 
-public extension UIViewController {
+extension UIViewController {
     /**
      A convenience property that provides access to the ToolbarController.
      This is the recommended method of accessing the ToolbarController
      through child UIViewControllers.
      */
-    var toolbarController: ToolbarController? {
+    public var toolbarController: ToolbarController? {
         return traverseViewControllerHierarchyForClassType()
     }
 }
@@ -97,6 +97,7 @@ fileprivate extension ToolbarController {
             case .top:
                 container.frame.origin.y = q + p
                 container.frame.size.height = h
+                
             case .bottom:
                 container.frame.origin.y = q
                 container.frame.size.height = h
