@@ -52,7 +52,7 @@ extension CustomInfoWindow
         NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
         NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 5).isActive = true
         
-        layout(label).size(CGSize(width: 50, height: 25))
+        layout(label).size(CGSize(width: 100, height: 25))
     }
  
 

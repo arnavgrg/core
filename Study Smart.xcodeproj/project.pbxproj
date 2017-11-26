@@ -23,6 +23,7 @@
 		27F088D01FB27C5400A2F0C6 /* CustomInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */; };
 		27F088D21FB27C5400A2F0C6 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088C01FB27C5400A2F0C6 /* Pin.swift */; };
 		27F088D41FB28DED00A2F0C6 /* CustomDetailWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088D31FB28DED00A2F0C6 /* CustomDetailWindow.swift */; };
+		3AA93C271FCAC42400791B9D /* Style.json in Resources */ = {isa = PBXBuildFile; fileRef = 3AA93C261FCAC34D00791B9D /* Style.json */; };
 		7D9BFFC81DB816E5E99ACFDB /* Pods_Study_Smart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfoWindow.swift; sourceTree = "<group>"; };
 		27F088C01FB27C5400A2F0C6 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		27F088D31FB28DED00A2F0C6 /* CustomDetailWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailWindow.swift; sourceTree = "<group>"; };
+		3AA93C261FCAC34D00791B9D /* Style.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Style.json; sourceTree = "<group>"; };
 		66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Study_Smart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7876BF88EB71A7B0A3C1746C /* Pods-Study SmartUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Study SmartUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Study SmartUITests/Pods-Study SmartUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8CD361229697490DC83CF033 /* Pods-Study SmartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Study SmartTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Study SmartTests/Pods-Study SmartTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */,
 				27F088D31FB28DED00A2F0C6 /* CustomDetailWindow.swift */,
 				27F088C01FB27C5400A2F0C6 /* Pin.swift */,
+				3AA93C261FCAC34D00791B9D /* Style.json */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27F088C41FB27C5400A2F0C6 /* Main.storyboard in Resources */,
+				3AA93C271FCAC42400791B9D /* Style.json in Resources */,
 				27F088C51FB27C5400A2F0C6 /* GoogleService-Info.plist in Resources */,
 				27F088C21FB27C5400A2F0C6 /* Assets.xcassets in Resources */,
 				27F088C31FB27C5400A2F0C6 /* LaunchScreen.storyboard in Resources */,
