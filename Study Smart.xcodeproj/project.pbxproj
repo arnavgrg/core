@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27403CFB1FCCDD5C00F6A37C /* AlamofireQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27403CFA1FCCDD5C00F6A37C /* AlamofireQuery.swift */; };
 		2772E6411F9C5E9F00FE0426 /* Study_SmartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E6401F9C5E9F00FE0426 /* Study_SmartTests.swift */; };
 		2772E64C1F9C5E9F00FE0426 /* Study_SmartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E64B1F9C5E9F00FE0426 /* Study_SmartUITests.swift */; };
 		27F088C11FB27C5400A2F0C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088A91FB27C5400A2F0C6 /* AppDelegate.swift */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		15F96B676D5400A959C9CF75 /* Pods-Study SmartUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Study SmartUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Study SmartUITests/Pods-Study SmartUITests.release.xcconfig"; sourceTree = "<group>"; };
 		1B48C45A2F2259E6C88803D0 /* Pods-Study Smart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Study Smart.release.xcconfig"; path = "Pods/Target Support Files/Pods-Study Smart/Pods-Study Smart.release.xcconfig"; sourceTree = "<group>"; };
+		27403CFA1FCCDD5C00F6A37C /* AlamofireQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireQuery.swift; sourceTree = "<group>"; };
 		2772E6281F9C5E9E00FE0426 /* Study Smart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Study Smart.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2772E63C1F9C5E9F00FE0426 /* Study SmartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Study SmartTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2772E6401F9C5E9F00FE0426 /* Study_SmartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Study_SmartTests.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				27F088B51FB27C5400A2F0C6 /* MapViewController.swift */,
 				27F088B61FB27C5400A2F0C6 /* Model */,
 				27F088BB1FB27C5400A2F0C6 /* SignInViewController.swift */,
+				27403CFA1FCCDD5C00F6A37C /* AlamofireQuery.swift */,
 				27F088BC1FB27C5400A2F0C6 /* Study Smart-Bridging-Header.h */,
 				27F088BD1FB27C5400A2F0C6 /* View */,
 			);
@@ -523,6 +526,7 @@
 				27F088D41FB28DED00A2F0C6 /* CustomDetailWindow.swift in Sources */,
 				27F088D21FB27C5400A2F0C6 /* Pin.swift in Sources */,
 				27F088CB1FB27C5400A2F0C6 /* Location.swift in Sources */,
+				27403CFB1FCCDD5C00F6A37C /* AlamofireQuery.swift in Sources */,
 				27F088CE1FB27C5400A2F0C6 /* User.swift in Sources */,
 				27F088CC1FB27C5400A2F0C6 /* LocationInfo.swift in Sources */,
 				27F088CD1FB27C5400A2F0C6 /* Locations.swift in Sources */,
@@ -697,10 +701,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9MN296DDEL;
+				DEVELOPMENT_TEAM = YAB9WFFW4V;
 				INFOPLIST_FILE = "Study Smart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.AL";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.PP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Study Smart/Study Smart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -716,10 +720,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9MN296DDEL;
+				DEVELOPMENT_TEAM = YAB9WFFW4V;
 				INFOPLIST_FILE = "Study Smart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.AL";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.PP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Study Smart/Study Smart-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

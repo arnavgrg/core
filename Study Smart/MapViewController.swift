@@ -177,6 +177,10 @@ extension MapViewController
         //mapView.updateFocusIfNeeded()
         
         updateOccupancy()
+        
+        AlamofireQuery.getUser { result in
+            print(result)
+        }
     }
     
     func geoTest()
