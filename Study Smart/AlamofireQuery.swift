@@ -11,21 +11,24 @@ import Alamofire
 
 class AlamofireQuery
 {
-    /*
-    static func createUser(completion: @escaping (String) -> ())
+    static func createUser(withEmail email: String, andID authID: Int, andLocationPermissions permissions: Int, andAccuracy accuracy: Double, withCompletionHandler completion: @escaping (String) -> ())
     {
+        let url = "http://demo-studysmart.herokuapp.com/user/register/"
+        let parameters: Parameters = ["email":email, "authID":authID, "location":permissions, "accuracy":accuracy]
         
-        let parameters: Parameters = ["email":"test@gmailcom", "authID":125, "location":1,"accuracy":1.0]
-        Alamofire.request("http://demo-studysmart.herokuapp.com/user/register/", method: .post, parameters: parameters).response { response in
+        Alamofire.request(url, method: .post, parameters: parameters).response { response in
             
-            completion("Response of POST: \(response.error.debugDescription)")
+            completion("Response of POST: \(response.response.debugDescription)")
         }
     }
- */
     
-    static func getUser(completion: @escaping (String) -> ())
+    static func getUser(withID authID: Int, withCompletion completion: @escaping (String) -> ())
     {
-        Alamofire.request("https://demo-studysmart.herokuapp.com/user/124/").response { response in
+        var url = "https://demo-studysmart.herokuapp.com/user/"
+        url += String(authID)
+        url += "/"
+        
+        Alamofire.request(url).response { response in
             
             if let statusCode = response.response?.statusCode
             {
@@ -39,10 +42,18 @@ class AlamofireQuery
         }
     }
     
-    static func getLibraryBusiness(completion: @escaping (String) -> ())
+    static func getLibraryBusiness(ofLibrary library: Int, atDate date: Date, duringHour hour: Int, withCompletion completion: @escaping (String) -> ())
     {
-        Alamofire.request("https://demo-studysmart.herokuapp.com/library/activity/?library=2&year=2017&month=11&date=18&hours=15").responseJSON { response in
-            
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        let year = components.year!
+        let month = components.month!
+        let day = components.day!
+        
+        let url = "https://demo-studysmart.herokuapp.com/library/activity/"
+        let parameters: Parameters = ["library":library, "year":year, "month":month, "date":day, "hours":hour];
+        
+        Alamofire.request(url, method: .get, parameters: parameters).responseJSON { response in
             if let json = response.result.value {
                 print("JSON: \(json)") // serialized json response
                 completion("Success!")

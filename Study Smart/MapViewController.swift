@@ -178,18 +178,20 @@ extension MapViewController
         
         updateOccupancy()
         
-        /*
-        AlamofireQuery.createUser { result in
-            print(result)
-        }
- */
         
-        AlamofireQuery.getUser { result in
+        AlamofireQuery.createUser(withEmail: "test3@gmail.com", andID: 321, andLocationPermissions: 1, andAccuracy: 1.0) { result in
             print(result)
-        }
-
-        AlamofireQuery.getLibraryBusiness { result in
-            print(result)
+            AlamofireQuery.getUser(withID: 321, withCompletion: { result in
+                print(result)
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy/MM/dd"
+                let testDate = formatter.date(from: "2017/11/18")
+                
+                AlamofireQuery.getLibraryBusiness(ofLibrary: 2, atDate: testDate!, duringHour: 15, withCompletion: { result in
+                    print(result)
+                })
+            })
         }
     }
     
