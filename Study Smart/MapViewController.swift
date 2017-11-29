@@ -178,7 +178,17 @@ extension MapViewController
         
         updateOccupancy()
         
+        /*
+        AlamofireQuery.createUser { result in
+            print(result)
+        }
+ */
+        
         AlamofireQuery.getUser { result in
+            print(result)
+        }
+
+        AlamofireQuery.getLibraryBusiness { result in
             print(result)
         }
     }

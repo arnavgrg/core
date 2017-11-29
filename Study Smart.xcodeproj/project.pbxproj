@@ -704,7 +704,7 @@
 				DEVELOPMENT_TEAM = YAB9WFFW4V;
 				INFOPLIST_FILE = "Study Smart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.PP";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Study Smart/Study Smart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -723,7 +723,7 @@
 				DEVELOPMENT_TEAM = YAB9WFFW4V;
 				INFOPLIST_FILE = "Study Smart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart.PP";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.devx.Study-Smart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Study Smart/Study Smart-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
