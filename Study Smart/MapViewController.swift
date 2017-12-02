@@ -126,17 +126,15 @@ extension MapViewController
         
         //Setting up Business's pin
         let businessPin = Pin(position: CLLocationCoordinate2DMake(Locations.BUSINESS_LIBRARY.latitude, Locations.BUSINESS_LIBRARY.longitude), title: Locations.BUSINESS_LIBRARY.name, map: mapView)
-        // let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
-        // powellPolygon.map = mapView
-        
+        let businessPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.BUSINESS_LIBRARY.geofence))
+        businessPolygon.map = mapView
         businessPin.icon = UIImage(named: "BUSINESS_LIBRARY")
         businessPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
-        //Setting up Business's pin
+        //Setting up Darling's pin
         let lawPin = Pin(position: CLLocationCoordinate2DMake(Locations.LAW_LIBRARY.latitude, Locations.LAW_LIBRARY.longitude), title: Locations.LAW_LIBRARY.name, map: mapView)
-        // let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
-        // powellPolygon.map = mapView
-        
+        let lawPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.LAW_LIBRARY.geofence))
+        lawPolygon.map = mapView
         lawPin.icon = UIImage(named: "LAW_LIBRARY")
         lawPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
@@ -179,19 +177,26 @@ extension MapViewController
         updateOccupancy()
         
         
-        AlamofireQuery.createUser(withEmail: "test3@gmail.com", andID: 321, andLocationPermissions: 1, andAccuracy: 1.0) { result in
+//        AlamofireQuery.createUser(withEmail: "test3@gmail.com", andID: 321, andLocationPermissions: 1, andAccuracy: 1.0) { result in
+//            print(result)
+//            AlamofireQuery.getUser(withID: 321, withCompletion: { result in
+//                print(result)
+//
+//                let formatter = DateFormatter()
+//                formatter.dateFormat = "yyyy/MM/dd"
+//                let testDate = formatter.date(from: "2017/11/18")
+//
+//                AlamofireQuery.getLibraryBusinessDuringHour(hour: 15, ofLibrary: 2, onDate: testDate!, withCompletion: { result in
+//                    print(result)
+//                })
+//            })
+//        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let testDate = formatter.date(from: "2017/11/18")
+        AlamofireQuery.getLibraryBusinessDuringDay(date: testDate!, ofLibrary: 2) { result in
             print(result)
-            AlamofireQuery.getUser(withID: 321, withCompletion: { result in
-                print(result)
-                
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy/MM/dd"
-                let testDate = formatter.date(from: "2017/11/18")
-                
-                AlamofireQuery.getLibraryBusiness(ofLibrary: 2, atDate: testDate!, duringHour: 15, withCompletion: { result in
-                    print(result)
-                })
-            })
         }
     }
     

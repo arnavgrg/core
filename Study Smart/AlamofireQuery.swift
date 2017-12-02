@@ -42,7 +42,7 @@ class AlamofireQuery
         }
     }
     
-    static func getLibraryBusiness(ofLibrary library: Int, atDate date: Date, duringHour hour: Int, withCompletion completion: @escaping (String) -> ())
+    static func getLibraryBusinessDuringHour(hour: Int, ofLibrary library: Int, onDate date: Date, withCompletion completion: @escaping (String) -> ())
     {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: date)
@@ -52,6 +52,29 @@ class AlamofireQuery
         
         let url = "https://demo-studysmart.herokuapp.com/library/activity/"
         let parameters: Parameters = ["library":library, "year":year, "month":month, "date":day, "hours":hour];
+        
+        Alamofire.request(url, method: .get, parameters: parameters).responseJSON { response in
+            if let json = response.result.value {
+                print("JSON: \(json)") // serialized json response
+                completion("Success!")
+            }
+            else
+            {
+                completion("Error!")
+            }
+        }
+    }
+    
+    static func getLibraryBusinessDuringDay(date: Date, ofLibrary library: Int, withCompletion completion: @escaping (String) -> ())
+    {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        let year = components.year!
+        let month = components.month!
+        let day = components.day!
+        
+        let url = "https://demo-studysmart.herokuapp.com/library/hours/"
+        let parameters: Parameters = ["library":library, "year":year, "month":month, "date":day];
         
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON { response in
             if let json = response.result.value {
