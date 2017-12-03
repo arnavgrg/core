@@ -8,6 +8,7 @@ PODS:
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseInstanceID (1.0.10):
     - FirebaseCore (~> 3.6)
+  - Floaty (4.0.0)
   - Google (3.1.0):
     - Google/Core (= 3.1.0)
   - Google/Core (3.1.0):
@@ -47,9 +48,9 @@ PODS:
   - GTMSessionFetcher/Core (1.1.12)
   - GTMSessionFetcher/Full (1.1.12):
     - GTMSessionFetcher/Core (= 1.1.12)
-  - Material (2.12.16):
-    - Material/Core (= 2.12.16)
-  - Material/Core (2.12.16):
+  - Material (2.12.17):
+    - Material/Core (= 2.12.17)
+  - Material/Core (2.12.17):
     - Motion (~> 1.2.5)
   - Motion (1.2.5):
     - Motion/Core (= 1.2.5)
@@ -58,6 +59,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.2.0)
+  - Floaty (~> 4.0.0)
   - Google
   - Google/SignIn
   - GoogleMaps
@@ -71,6 +73,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  Floaty: 4f88811bbf08521807f42355db6a9c0db85d5d78
   Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   GooglePlacePicker: 1573e644ab54564d95c2643edc0f29091609e966
@@ -79,10 +82,10 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
-  Material: 00fdeb39f5d97dc19f09b160e8b95c47e2ed708d
+  Material: 5efae18f40ebf40baa2c252086d4646849ee7118
   Motion: 88a8bee21926af792333f4b9e7170f710e9e48f3
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: ed1b10f5854432a069abe9788bb68af15e9fa0e1
+PODFILE CHECKSUM: 813cb73b4fd571e1aadc52e8c64210ce4cb551f5
 
 COCOAPODS: 1.3.1

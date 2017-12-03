@@ -14,7 +14,7 @@ import Foundation
 struct Locations
 {
     //UCLA
-    static let UCLA = Location(name: "UCLA", ID: 0, geofence: "ukznEhl|qU_oCtwBwHabD~r@cH", latitude: 34.07020, longitude: -118.44670)
+    static let UCLA = Location(name: "UCLA", ID: 0, geofence: "ukznEhl|qU_oCtwBwHabD~r@cH", latitude: 34.07020, longitude: -118.44270)
     
     //Powell Library
     static let POWELL_LIBRARY = Location(name: "Powell Library", ID: 1, geofence: "qo}nEzc|qU?z@a@@?p@^A@x@eD@?iD", latitude: 34.071796, longitude: -118.442185)

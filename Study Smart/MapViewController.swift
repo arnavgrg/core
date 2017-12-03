@@ -62,8 +62,9 @@ class MapViewController: UIViewController
         
         
         // Creates a marker in the center of the map.
-        let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: self.mapView)
+      /*  let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: self.mapView)
         uclaPin.icon = UIImage(named: "redpin")
+ */
         
         mapView.cameraTargetBounds = GMSCoordinateBounds(path: GMSPath(fromEncodedPath: Locations.UCLA.geofence)!)
     }
@@ -74,7 +75,7 @@ class MapViewController: UIViewController
 
         // Do any additional setup after loading the view.
         
-       
+        setupInfoButton()
         setupCenterButton()
         setupLibraryPins()
         setupDetailView()
@@ -127,6 +128,23 @@ extension MapViewController
         }
     }
    
+    func setupInfoButton(){
+        
+        let infoButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        // centerButton.addTarget(self, action:#selector(), for: .touchUpInside)
+        view.addSubview(infoButton)
+        
+        NSLayoutConstraint(item: infoButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: infoButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
+        NSLayoutConstraint(item: infoButton, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: infoButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 20).isActive = true
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        infoButton.layoutIfNeeded()
+        infoButton.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1.0)
+      
+    }
+    
     func setupCenterButton()
     {
         let centerButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -140,8 +158,8 @@ extension MapViewController
         centerButton.translatesAutoresizingMaskIntoConstraints = false
         
         centerButton.layoutIfNeeded()
-        centerButton.backgroundColor = .red
-        centerButton.addTarget(self, action:#selector(centerView), for: .touchUpInside)
+        centerButton.image = UIImage(named: "myLocation")
+        centerButton.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1.0)
     }
 
     

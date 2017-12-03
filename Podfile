@@ -14,6 +14,7 @@ target 'Study Smart' do
   pod 'Material'
   pod 'Alamofire', '~> 4.2.0'
   pod 'SwiftyJSON'
+  pod 'Floaty', '~> 4.0.0' 
 
   target 'Study SmartTests' do
     inherit! :search_paths
