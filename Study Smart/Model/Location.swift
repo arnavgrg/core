@@ -8,8 +8,16 @@
 
 import Foundation
 
-struct Location
+struct Location: Hashable
 {
+    var hashValue: Int {
+        return ID.hashValue
+    }
+    
+    static func ==(lhs: Location, rhs: Location) -> Bool {
+        return lhs.ID == rhs.ID
+    }
+    
     let name: String
     let ID: Int
     let geofence: String
