@@ -11,11 +11,15 @@ import Material
 
 class CustomDetailWindow: UIView
 {
-    var label: UILabel!
+    
     var exitButton: FlatButton!
     var newsButton: UIButton!
     var reserveButton: UIButton!
     var infoButton: UIButton!
+    
+    var libraryLabel: UILabel!
+    var busynessLabel: UILabel!
+    var hoursLabel: UILabel!
     
     //var hoursView: UIView!
     
@@ -36,7 +40,7 @@ class CustomDetailWindow: UIView
     {
         setupBackground()
         //setupHoursView()
-        setupLabel()
+        setupLabels()
         setupExitButton()
         setupOtherButtons()
         //setupHoursView()
@@ -68,19 +72,39 @@ extension CustomDetailWindow
         sendSubview(toBack: imageView)
     }
     
-    func setupLabel()
+    func setupLabels()
     {
-        label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Avenir-Heavy", size: 18.0)
-        label.textColor = UIColor.white
-        addSubview(label)
+        libraryLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        libraryLabel.translatesAutoresizingMaskIntoConstraints = false
+        libraryLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        libraryLabel.textColor = UIColor.white
+        addSubview(libraryLabel)
         
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 25).isActive = true
-        layout(label).size(CGSize(width: 200, height: 23))
+        libraryLabel.numberOfLines = 0
+        libraryLabel.adjustsFontSizeToFitWidth = true
+        NSLayoutConstraint(item: libraryLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: libraryLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 25).isActive = true
+        layout(libraryLabel).size(CGSize(width: 200, height: 23))
+        
+        busynessLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
+        busynessLabel.center = CGPoint(x: 20, y: 200)
+        busynessLabel.translatesAutoresizingMaskIntoConstraints = false
+        busynessLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        busynessLabel.text = "Weekly Busyness"
+        busynessLabel.textColor = UIColor.white
+        addSubview(busynessLabel)
+        
+        hoursLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
+        hoursLabel.center = CGPoint(x: 20, y: 400)
+        hoursLabel.translatesAutoresizingMaskIntoConstraints = false
+        hoursLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        hoursLabel.text = "Weekly Hours"
+        hoursLabel.textColor = UIColor.white
+        addSubview(hoursLabel)
+        
+        
+        
+        
     }
     
      func setupExitButton()

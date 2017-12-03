@@ -159,7 +159,7 @@ extension MapViewController
         NSLayoutConstraint(item: detailView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
         
         detailView.layoutIfNeeded()
-        detailView.label.text = "TEST"
+        detailView.libraryLabel.text = "TEST"
         detailView.isHidden = true
     }
 }
@@ -223,7 +223,7 @@ extension MapViewController: GMSMapViewDelegate
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
     {
-        detailView.label.text = marker.title
+        detailView.libraryLabel.text = marker.title
         detailView.isHidden = false
     }
     
