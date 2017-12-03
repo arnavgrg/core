@@ -76,9 +76,9 @@ extension CustomDetailWindow
     {
         libraryLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         libraryLabel.translatesAutoresizingMaskIntoConstraints = false
-        libraryLabel.font = UIFont(name: "Avenir-Heavy", size: 18)
+        libraryLabel.font = UIFont(name: "Avenir-Heavy", size: 20)
         libraryLabel.textColor = UIColor.white
-        libraryLabel.center = CGPoint(x: self.center.x, y: libraryLabel.center.y)
+        libraryLabel.textAlignment = .center
         addSubview(libraryLabel)
         
         libraryLabel.numberOfLines = 0
@@ -113,10 +113,10 @@ extension CustomDetailWindow
         exitButton.setTitle("Exit", for: .normal)
         exitButton.titleLabel?.font = UIFont(name: "Avenir", size: 18)
         
-        NSLayoutConstraint(item: exitButton, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 10).isActive = true
-        NSLayoutConstraint(item: exitButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10).isActive = true
+        NSLayoutConstraint(item: exitButton, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: -10).isActive = true
+        NSLayoutConstraint(item: exitButton, attribute: .centerY, relatedBy: .equal, toItem: libraryLabel, attribute: .centerY, multiplier: 1.0, constant: 0).isActive = true
         
-        layout(exitButton).size(CGSize(width: 50, height: 50))
+        layout(exitButton).size(CGSize(width: 50, height: 25))
     }
     
     func setupOtherButtons()
