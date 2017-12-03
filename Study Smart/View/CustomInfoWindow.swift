@@ -45,6 +45,7 @@ extension CustomInfoWindow
     {
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Avenir", size: 15.0)
         addSubview(label)
         
         label.numberOfLines = 0

@@ -13,7 +13,7 @@ class CustomDetailWindow: UIView
 {
     var label: UILabel!
     var exitButton: FlatButton!
-    var hoursView: UIView!
+    //var hoursView: UIView!
     
     //TODO: Add other fields such as percentage fill, etc
     
@@ -31,17 +31,17 @@ class CustomDetailWindow: UIView
     func configureView()
     {
         setupBackground()
-        setupHoursView()
+        //setupHoursView()
         setupLabel()
         setupExitButton()
-        setupHoursView()
+        //setupHoursView()
     }
 }
 
 extension CustomDetailWindow
 {
     
-    func setupHoursView(){
+    /*func setupHoursView(){
         hoursView = UIView()
         self.addSubview(hoursView)
         hoursView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,16 +49,17 @@ extension CustomDetailWindow
         NSLayoutConstraint(item: hoursView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
         NSLayoutConstraint(item: hoursView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.25, constant: 0).isActive = true
         NSLayoutConstraint(item: hoursView, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0.9, constant: 0).isActive = true
-        hoursView.backgroundColor = UIColor(red:0.96, green:0.61, blue:0.47, alpha:1.0)
+        hoursView.backgroundColor = UIColor(red:0.96, green:0.61, blue:0.47, alpha:1.0) //F59C78
         NSLayoutConstraint(item: hoursView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 50).isActive = true
         hoursView.cornerRadiusPreset = .cornerRadius3
         
-    }
+    }*/
     
     func setupBackground() {
         let imageView = UIImageView(image: UIImage(named: "detailView"))
         self.addSubview(imageView)
         self.cornerRadiusPreset = .cornerRadius3
+        imageView.contentMode = .scaleAspectFit
         sendSubview(toBack: imageView)
     }
     
@@ -66,6 +67,7 @@ extension CustomDetailWindow
     {
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Avenir", size: 15.0)
         addSubview(label)
         
         label.numberOfLines = 0
