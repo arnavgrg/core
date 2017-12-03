@@ -24,9 +24,12 @@ class MapViewController: UIViewController
     var detailView: CustomDetailWindow!
 
     var pins:[Pin] = []
+    var libraries: [Location: [String:Int]] = [Locations.POWELL_LIBRARY:[:],Locations.CEYR_LIBRARY:[:]]
     
     override func loadView()
     {
+        populateHours()
+        
         // Create a GMSCameraPosition that tells the map to display UCLA
         self.camera = GMSCameraPosition.camera(withLatitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE, zoom: Float(DEFAULT_ZOOM))
         self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
@@ -86,6 +89,37 @@ class MapViewController: UIViewController
 
 extension MapViewController
 {
+    func populateHours()
+    {
+        let populateGroup = DispatchGroup()
+        
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: currentDate)
+        
+        for library in libraries.keys
+        {
+            populateGroup.enter()
+            AlamofireQuery.getLibraryBusinessDuringDay(date: currentDate, ofLibrary: library.ID, withCompletion: { (result, open, close) in
+                self.libraries[library]!["open"] = open
+                self.libraries[library]!["close"] = close
+                print("\(result) for populating hours for \(library.name)")
+                defer { populateGroup.leave() } //ensures leave()'s are balanced with enter()'s
+            })
+            
+            populateGroup.enter()
+            AlamofireQuery.getLibraryBusinessDuringHour(hour: hour, ofLibrary: library.ID, onDate: currentDate, withCompletion: { result, business in
+                self.libraries[library]!["business"] = business
+                print("\(result) for populating hour \(hour) business for \(library.name)")
+                defer { populateGroup.leave() }
+            })
+        }
+        
+        populateGroup.notify(queue: DispatchQueue.main)
+        {
+            print(self.libraries.debugDescription)
+        }
+    }
    
     func setupCenterButton()
     {
@@ -194,10 +228,19 @@ extension MapViewController
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
-        let testDate = formatter.date(from: "2017/11/18")
-        AlamofireQuery.getLibraryBusinessDuringDay(date: testDate!, ofLibrary: 2) { result in
-            print(result)
-        }
+        let testDate = formatter.date(from: "2017/12/02")
+//        AlamofireQuery.getLibraryBusinessDuringDay(date: testDate!, ofLibrary: Locations.POWELL_LIBRARY.ID) { result, open, close  in
+//            print(open)
+//            print(close)
+//            print(result)
+//        }
+//
+//        AlamofireQuery.getLibraryBusinessDuringHour(hour: 15, ofLibrary: Locations.POWELL_LIBRARY.ID, onDate: testDate!) { result, overall in
+//            print(overall)
+//            print(result)
+//        }
+        
+        print(libraries.debugDescription)
     }
     
     func geoTest()
