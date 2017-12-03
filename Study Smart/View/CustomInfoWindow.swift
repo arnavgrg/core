@@ -45,14 +45,16 @@ extension CustomInfoWindow
     {
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         label.translatesAutoresizingMaskIntoConstraints = false
+        //label.font = UIFont(name: "Avenir Black", size: 14.0)
         addSubview(label)
         
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = false
+        //NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        label.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
         NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 5).isActive = true
         
-        layout(label).size(CGSize(width: 100, height: 25))
+        layout(label).size(CGSize(width: 175, height: 25))
     }
  
 

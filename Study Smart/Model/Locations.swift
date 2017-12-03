@@ -20,7 +20,7 @@ struct Locations
     static let POWELL_LIBRARY = Location(name: "Powell Library", ID: 1, geofence: "qo}nEzc|qU?z@a@@?p@^A@x@eD@?iD", latitude: 34.071796, longitude: -118.442185)
     
     //Charles E. Young Research Library
-    static let CEYR_LIBRARY = Location(name: "YRL", ID: 2, geofence: "mi~nEde|qUCcE~BE?hE", latitude: 34.075221, longitude: -118.441514)
+    static let CEYR_LIBRARY = Location(name: "Young Research Library", ID: 2, geofence: "mi~nEde|qUCcE~BE?hE", latitude: 34.075221, longitude: -118.441514)
     
     //Darling Law Library
     static let LAW_LIBRARY = Location(name: "Darling Law Library", ID: 3, geofence: "q}}nE`n{qU?vAT??i@b@??h@r@??{A", latitude: 34.0729138, longitude: -118.4384435)

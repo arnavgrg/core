@@ -256,7 +256,11 @@ extension MapViewController: GMSMapViewDelegate
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
         let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 225, height: 145)))
-        infoWindow.label.text = marker.title
+        let labelAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            NSAttributedStringKey.font: UIFont(name: "Avenir-Heavy", size: 14.0)!]
+        
+        infoWindow.label.attributedText = NSAttributedString(string: marker.title!, attributes: labelAttributes)
         return infoWindow
     }
     
@@ -299,5 +303,53 @@ extension MapViewController: CLLocationManagerDelegate
             // implement additional logic if needed...
         }
         // implement logic for other status values if needed...
+    }
+}
+
+extension MapViewController
+{
+    func getPinColor(busyness: Int) -> UIColor
+    {
+        let empty = 0x64B0CC
+        let not_busy = 0x5DB58F
+        let busy = 0xF7D64A
+        let very_busy = 0xF49B78
+        let packed = 0xF1562D
+        
+        var libColor: Int
+        switch busyness {
+        case 0..<25:
+            libColor = empty
+        case 25..<50:
+            libColor = not_busy
+        case 50..<70:
+            libColor = busy
+        case 70..<90:
+            libColor = very_busy
+        case 90..<101:
+            libColor = packed
+        default:
+            libColor = 0x000000
+        }
+        
+        return UIColor(rgb: libColor)
+    }
+}
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
     }
 }
