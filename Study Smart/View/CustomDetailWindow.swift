@@ -67,14 +67,15 @@ extension CustomDetailWindow
     {
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Avenir", size: 15.0)
+        label.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        label.textColor = UIColor.white
         addSubview(label)
         
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 15).isActive = true
-        layout(label).size(CGSize(width: 50, height: 25))
+        NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 25).isActive = true
+        layout(label).size(CGSize(width: 200, height: 23))
     }
     
      func setupExitButton()
@@ -85,6 +86,7 @@ extension CustomDetailWindow
         
         exitButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
         exitButton.setTitle("Exit", for: .normal)
+        exitButton.titleLabel?.font = UIFont(name: "Avenir", size: 18)
         
         NSLayoutConstraint(item: exitButton, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 10).isActive = true
         NSLayoutConstraint(item: exitButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10).isActive = true

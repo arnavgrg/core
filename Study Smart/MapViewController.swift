@@ -213,7 +213,11 @@ extension MapViewController: GMSMapViewDelegate
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
         let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 225, height: 145)))
-        infoWindow.label.text = marker.title
+        let labelAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            NSAttributedStringKey.font: UIFont(name: "Avenir-Heavy", size: 14.0)!]
+        
+        infoWindow.label.attributedText = NSAttributedString(string: marker.title!, attributes: labelAttributes)
         return infoWindow
     }
     

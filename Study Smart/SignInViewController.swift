@@ -116,6 +116,7 @@ extension SignInViewController
         signInButton.addTarget(self, action:#selector(signIn), for: .touchUpInside)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.setTitle("Sign In", for: .normal)
+        signInButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
         signInButton.backgroundColor = Color.lightBlue.base
         signInButton.alpha = 0.00
         signInButton.cornerRadiusPreset = .cornerRadius8
@@ -135,6 +136,7 @@ extension SignInViewController
         signOutButton.addTarget(self, action:#selector(signOut), for: .touchUpInside)
         signOutButton.translatesAutoresizingMaskIntoConstraints = false
         signOutButton.setTitle("Sign Out", for: .normal)
+        signOutButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 18)
         signOutButton.backgroundColor = Color.lightBlue.base
         signOutButton.alpha = 0.00
         signOutButton.cornerRadiusPreset = .cornerRadius8
