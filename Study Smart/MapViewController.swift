@@ -26,6 +26,12 @@ class MapViewController: UIViewController
     var pins:[Pin] = []
     var libraries: [Location: [String:Int]] = [Locations.POWELL_LIBRARY:[:],Locations.CEYR_LIBRARY:[:]]
     
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(populateHours), name: Notification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
     override func loadView()
     {
         populateHours()
@@ -89,7 +95,7 @@ class MapViewController: UIViewController
 
 extension MapViewController
 {
-    func populateHours()
+    @objc func populateHours()
     {
         let populateGroup = DispatchGroup()
         
@@ -100,7 +106,7 @@ extension MapViewController
         for library in libraries.keys
         {
             populateGroup.enter()
-            AlamofireQuery.getLibraryBusinessDuringDay(date: currentDate, ofLibrary: library.ID, withCompletion: { (result, open, close) in
+            AlamofireQuery.getLibraryHoursDuringDay(date: currentDate, ofLibrary: library.ID, withCompletion: { (result, open, close) in
                 self.libraries[library]!["open"] = open
                 self.libraries[library]!["close"] = close
                 print("\(result) for populating hours for \(library.name)")

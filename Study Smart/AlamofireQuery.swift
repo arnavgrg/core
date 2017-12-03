@@ -85,7 +85,7 @@ class AlamofireQuery
         }
     }
     
-    static func getLibraryBusinessDuringDay(date: Date, ofLibrary library: Int, withCompletion completion: @escaping (String, Int, Int) -> ())
+    static func getLibraryHoursDuringDay(date: Date, ofLibrary library: Int, withCompletion completion: @escaping (String, Int, Int) -> ())
     {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: date)
