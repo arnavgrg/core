@@ -13,6 +13,10 @@ class CustomDetailWindow: UIView
 {
     var label: UILabel!
     var exitButton: FlatButton!
+    var newsButton: UIButton!
+    var reserveButton: UIButton!
+    var infoButton: UIButton!
+    
     //var hoursView: UIView!
     
     //TODO: Add other fields such as percentage fill, etc
@@ -34,6 +38,7 @@ class CustomDetailWindow: UIView
         //setupHoursView()
         setupLabel()
         setupExitButton()
+        setupOtherButtons()
         //setupHoursView()
     }
 }
@@ -92,6 +97,52 @@ extension CustomDetailWindow
         NSLayoutConstraint(item: exitButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10).isActive = true
         
         layout(exitButton).size(CGSize(width: 50, height: 50))
+    }
+    
+    func setupOtherButtons()
+    {
+        let newsImage = UIImage(named: "newsButton") as UIImage?
+        newsButton = UIButton(type: UIButtonType.custom) as UIButton
+        newsButton.frame = CGRect(x: 41, y: 580, width: 60, height: 60)
+        newsButton.setImage(newsImage, for: .normal)
+        newsButton.addTarget(self, action: #selector(newsButtonClicked), for: .touchUpInside)
+        addSubview(newsButton)
+        
+        let reserveImage = UIImage(named: "reserveButton") as UIImage?
+        reserveButton = UIButton(type: UIButtonType.custom) as UIButton
+        reserveButton.frame = CGRect(x: 158, y: 580, width: 60, height: 60)
+        reserveButton.setImage(reserveImage, for: .normal)
+        reserveButton.addTarget(self, action: #selector(reserveButtonClicked), for: .touchUpInside)
+        addSubview(reserveButton)
+        
+        let infoImage = UIImage(named: "infoButton") as UIImage?
+        infoButton = UIButton(type: UIButtonType.custom) as UIButton
+        infoButton.frame = CGRect(x: 275, y: 580, width: 60, height: 60)
+        infoButton.setImage(infoImage, for: .normal)
+        infoButton.addTarget(self, action: #selector(infoButtonClicked), for: .touchUpInside)
+        addSubview(infoButton)
+        
+    }
+}
+
+extension CustomDetailWindow
+{
+    @objc func newsButtonClicked(sender: UIButton!)
+    {
+        let url = URL(string: "http://www.library.ucla.edu/news-events")!
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    @objc func reserveButtonClicked(sender: UIButton!)
+    {
+        let url = URL(string: "http://www.library.ucla.edu/clicc/study-rooms")!
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    @objc func infoButtonClicked(sender:UIButton!)
+    {
+        let url = URL(string: "http://www.library.ucla.edu")!
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
 
