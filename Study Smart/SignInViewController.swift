@@ -14,6 +14,7 @@ import Motion
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate
 {
+    var mapController: MapViewController?
     var signInButton: UIButton!
     var signOutButton: UIButton!
     var backgroundImage: UIImageView!
@@ -35,9 +36,25 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
         setupBackground()
         setupSignOutButton()
         setupSignInButton()
+        setupInfoLabel()
         
         signInButton.animate(.delay(0.5), .fade(1.00), .translate(y: -50))
         signOutButton.animate(.delay(1), .fade(1.00), .translate(y: -50))
+    }
+    
+    func setupInfoLabel(){
+        let infoLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        infoLabel.translatesAutoresizingMaskIntoConstraints = false
+        infoLabel.font = UIFont(name: "Avenir-Heavy", size: 14.0)
+        infoLabel.textColor = .white
+        self.view.addSubview(infoLabel)
+        self.view.bringSubview(toFront: infoLabel)
+        
+        infoLabel.numberOfLines = 0
+        infoLabel.adjustsFontSizeToFitWidth = true
+        NSLayoutConstraint(item: infoLabel, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: infoLabel, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -25).isActive = true
+        infoLabel.text = "Please use your g.ucla.edu email"
     }
     
     func receiveResponse(user: GIDGoogleUser)
@@ -165,14 +182,19 @@ extension SignInViewController
         // print("logged out of:" + (GIDSignIn.sharedInstance().currentUser?.profile.name)!)
         print("signOut() called")
         GIDSignIn.sharedInstance().signOut()
+        self.mapController = nil
     }
     
     func goToMap()
     {
         print("goToMap() called")
-        
-        let mapViewController = MapViewController()
-        self.present(mapViewController, animated: true, completion: nil)
+        if(mapController == nil) {
+            self.mapController = MapViewController()
+            self.present(self.mapController!, animated: true, completion: nil)
+        }
+        else {
+            self.present(mapController!, animated: true, completion: nil)
+        }
     }
 }
 

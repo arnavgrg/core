@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import Material
 import CoreLocation
+import Floaty
 
 class MapViewController: UIViewController
 {
@@ -18,6 +19,7 @@ class MapViewController: UIViewController
     let CENTER_LONGITUDE = Locations.UCLA.longitude
     let DEFAULT_ZOOM = 15.0
     
+    var floaty: Floaty!
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
     var locationManager: CLLocationManager!
@@ -129,20 +131,39 @@ extension MapViewController
     }
    
     func setupInfoButton(){
+        self.floaty = Floaty()
+        floaty.size = 60
+        floaty.paddingX = 20
+        floaty.paddingY = 20
+        floaty.rotationDegrees = 180
+        floaty.buttonImage = UIImage(named: "controlButton")
+        let favImage = UIImage(named: "feedback")
+        let favs = FloatyItem()
+        favs.icon = favImage
+        favs.title = "Favorites!"
+        floaty.addItem("Give us feedback!", icon: favImage, handler: { item in
+            let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSe_ICqeCMeOOMF7Qra3ghI9zBGZWDJ_m9vaGtEbTqY_-I5D4A/viewform")!
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        })
+        floaty.addItem(item: favs)
+        floaty.addItem("Logout", icon: UIImage(named: "logout")!, handler: { item in
+            self.goToSignIn()
+        })
+        view.addSubview(floaty)
+    }
+    
+    func goToSignIn()
+    {
+        print("goToSignIn() called")
         
-        let infoButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        // centerButton.addTarget(self, action:#selector(), for: .touchUpInside)
-        view.addSubview(infoButton)
+        // *** UNCOMMENT BEFORE LAUNCH ***
+        // Commented for ease of use
+
+       // GIDSignIn.sharedInstance().signOut()
         
-        NSLayoutConstraint(item: infoButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: infoButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: infoButton, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: infoButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 20).isActive = true
-        infoButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        infoButton.layoutIfNeeded()
-        infoButton.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1.0)
-      
+        self.dismiss(animated: true, completion: nil)
+       // self.present(signInViewController!, animated: true, completion: nil)
+    
     }
     
     func setupCenterButton()
@@ -170,6 +191,7 @@ extension MapViewController
         let powellPin = Pin(position: CLLocationCoordinate2DMake(Locations.POWELL_LIBRARY.latitude, Locations.POWELL_LIBRARY.longitude), title: Locations.POWELL_LIBRARY.name, map: mapView)
         let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
         powellPolygon.map = mapView
+
         
         powellPin.icon = UIImage(named: "POWELL")
         powellPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
@@ -202,6 +224,8 @@ extension MapViewController
         pins.append(powellPin)
         
         yrlPolygon.fillColor = nil
+        lawPolygon.fillColor = nil
+        businessPolygon.fillColor = nil
         powellPolygon.fillColor = nil
     }
     
@@ -210,6 +234,7 @@ extension MapViewController
         detailView = CustomDetailWindow(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         detailView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailView)
+        self.view.bringSubview(toFront: detailView)
         
         NSLayoutConstraint(item: detailView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
         NSLayoutConstraint(item: detailView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0).isActive = true
@@ -292,6 +317,7 @@ extension MapViewController: GMSMapViewDelegate
     {
         detailView.libraryLabel.text = marker.title
         detailView.isHidden = false
+        
     }
     
     // MARK: Needed to create the custom info window
