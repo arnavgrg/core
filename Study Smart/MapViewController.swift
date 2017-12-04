@@ -24,9 +24,10 @@ class MapViewController: UIViewController
     var mapView: GMSMapView!
     var locationManager: CLLocationManager!
     var detailView: CustomDetailWindow!
+    var loadingView: LoadingView!
 
     var pins:[Pin] = []
-    var libraries: [Location: [String:Int]] = [Locations.POWELL_LIBRARY:[:],Locations.CEYR_LIBRARY:[:]]
+    var libraries: [Location: [String:Any]] = [Locations.POWELL_LIBRARY:[:],Locations.CEYR_LIBRARY:[:], Locations.LAW_LIBRARY:[:], Locations.BUSINESS_LIBRARY:[:]]
     
     override func viewWillAppear(_ animated: Bool)
     {
@@ -36,8 +37,6 @@ class MapViewController: UIViewController
     
     override func loadView()
     {
-        populateHours()
-        
         // Create a GMSCameraPosition that tells the map to display UCLA
         self.camera = GMSCameraPosition.camera(withLatitude: CENTER_LATITUDE, longitude: CENTER_LONGITUDE, zoom: Float(DEFAULT_ZOOM))
         self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
@@ -62,6 +61,10 @@ class MapViewController: UIViewController
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
+        //TODO: handles loading for now
+        view.isUserInteractionEnabled = false
+        populateHours()
+        
         
         // Creates a marker in the center of the map.
       /*  let uclaPin = Pin(position: CLLocationCoordinate2DMake(CENTER_LATITUDE, CENTER_LONGITUDE), title: Locations.UCLA.name, map: self.mapView)
@@ -81,6 +84,7 @@ class MapViewController: UIViewController
         setupCenterButton()
         setupLibraryPins()
         setupDetailView()
+        setupLoadingView()
     }
     
     func updateOccupancy()
@@ -109,9 +113,10 @@ extension MapViewController
         for library in libraries.keys
         {
             populateGroup.enter()
-            AlamofireQuery.getLibraryHoursDuringDay(date: currentDate, ofLibrary: library.ID, withCompletion: { (result, open, close) in
+            AlamofireQuery.getLibraryHoursDuringDay(date: currentDate, ofLibrary: library.ID, withCompletion: { (result, open, close, weekHours) in
                 self.libraries[library]!["open"] = open
                 self.libraries[library]!["close"] = close
+                self.libraries[library]!["weekHours"] = weekHours
                 print("\(result) for populating hours for \(library.name)")
                 defer { populateGroup.leave() } //ensures leave()'s are balanced with enter()'s
             })
@@ -122,10 +127,24 @@ extension MapViewController
                 print("\(result) for populating hour \(hour) business for \(library.name)")
                 defer { populateGroup.leave() }
             })
+            
+            for h in 0...23
+            {
+                populateGroup.enter()
+                AlamofireQuery.getLibraryBusinessDuringHour(hour: h, ofLibrary: library.ID, onDate: currentDate, withCompletion: { result, business in
+                    let label = String(h) + "business"
+                    self.libraries[library]![label] = business
+                    print("\(result) for populating hour \(h) business for \(library.name)")
+                    defer { populateGroup.leave() }
+                })
+            }
         }
         
         populateGroup.notify(queue: DispatchQueue.main)
         {
+            //TODO: Handles loading completion for now
+            self.loadingView.isHidden = true
+            self.view.isUserInteractionEnabled = true
             print(self.libraries.debugDescription)
         }
     }
@@ -196,42 +215,41 @@ extension MapViewController
     {
   
         //Setting up Powell's pin
-        let powellPin = Pin(position: CLLocationCoordinate2DMake(Locations.POWELL_LIBRARY.latitude, Locations.POWELL_LIBRARY.longitude), title: Locations.POWELL_LIBRARY.name, map: mapView)
+        let powellPin = Pin(position: CLLocationCoordinate2DMake(Locations.POWELL_LIBRARY.latitude, Locations.POWELL_LIBRARY.longitude), title: Locations.POWELL_LIBRARY.name, map: mapView, location: Locations.POWELL_LIBRARY)
         let powellPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.POWELL_LIBRARY.geofence))
         powellPolygon.map = mapView
-        
+        powellPolygon.fillColor = nil
         powellPin.icon = UIImage(named: "POWELL")
         powellPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
         //Setting up YRL's pin
-        let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView)
+        let yrlPin = Pin(position: CLLocationCoordinate2DMake(Locations.CEYR_LIBRARY.latitude, Locations.CEYR_LIBRARY.longitude), title: Locations.CEYR_LIBRARY.name, map: mapView, location: Locations.CEYR_LIBRARY)
         let yrlPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.CEYR_LIBRARY.geofence))
-        yrlPolygon.fillColor = nil
         yrlPolygon.map = mapView
+        yrlPolygon.fillColor = nil
         yrlPin.icon = UIImage(named: "YRL")
         yrlPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
-        //Setting up Business's pin
-        let businessPin = Pin(position: CLLocationCoordinate2DMake(Locations.BUSINESS_LIBRARY.latitude, Locations.BUSINESS_LIBRARY.longitude), title: Locations.BUSINESS_LIBRARY.name, map: mapView)
-        let businessPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.BUSINESS_LIBRARY.geofence))
-        businessPolygon.map = mapView
-        businessPin.icon = UIImage(named: "BUSINESS_LIBRARY")
-        businessPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
-        
         //Setting up Darling's pin
-        let lawPin = Pin(position: CLLocationCoordinate2DMake(Locations.LAW_LIBRARY.latitude, Locations.LAW_LIBRARY.longitude), title: Locations.LAW_LIBRARY.name, map: mapView)
+        let lawPin = Pin(position: CLLocationCoordinate2DMake(Locations.LAW_LIBRARY.latitude, Locations.LAW_LIBRARY.longitude), title: Locations.LAW_LIBRARY.name, map: mapView, location: Locations.LAW_LIBRARY)
         let lawPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.LAW_LIBRARY.geofence))
         lawPolygon.map = mapView
+        lawPolygon.fillColor = nil
         lawPin.icon = UIImage(named: "LAW_LIBRARY")
         lawPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
         
+        //Setting up Business's pin
+        let businessPin = Pin(position: CLLocationCoordinate2DMake(Locations.BUSINESS_LIBRARY.latitude, Locations.BUSINESS_LIBRARY.longitude), title: Locations.BUSINESS_LIBRARY.name, map: mapView, location: Locations.BUSINESS_LIBRARY)
+        let businessPolygon = GMSPolygon(path: GMSPath(fromEncodedPath: Locations.BUSINESS_LIBRARY.geofence))
+        businessPolygon.map = mapView
+        businessPolygon.fillColor = nil
+        businessPin.icon = UIImage(named: "BUSINESS_LIBRARY")
+        businessPin.infoWindowAnchor = CGPoint(x: 0, y: 0)
+        
+        pins.append(powellPin)
+        pins.append(yrlPin)
         pins.append(lawPin)
         pins.append(businessPin)
-        pins.append(yrlPin)
-        pins.append(powellPin)
-        
-        yrlPolygon.fillColor = nil
-        powellPolygon.fillColor = nil
     }
     
     func setupDetailView()
@@ -249,6 +267,21 @@ extension MapViewController
         detailView.libraryLabel.text = "TEST"
         detailView.isHidden = true
     }
+    
+    func setupLoadingView()
+    {
+        loadingView = LoadingView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        
+        NSLayoutConstraint(item: loadingView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: loadingView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: loadingView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: loadingView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
+        
+        loadingView.layoutIfNeeded()
+        loadingView.isHidden = false
+    }
 }
 
 @objc
@@ -262,38 +295,7 @@ extension MapViewController
         //mapView.updateFocusIfNeeded()
         
         updateOccupancy()
-        
-        
-//        AlamofireQuery.createUser(withEmail: "test3@gmail.com", andID: 321, andLocationPermissions: 1, andAccuracy: 1.0) { result in
-//            print(result)
-//            AlamofireQuery.getUser(withID: 321, withCompletion: { result in
-//                print(result)
-//
-//                let formatter = DateFormatter()
-//                formatter.dateFormat = "yyyy/MM/dd"
-//                let testDate = formatter.date(from: "2017/11/18")
-//
-//                AlamofireQuery.getLibraryBusinessDuringHour(hour: 15, ofLibrary: 2, onDate: testDate!, withCompletion: { result in
-//                    print(result)
-//                })
-//            })
-//        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        let testDate = formatter.date(from: "2017/12/02")
-//        AlamofireQuery.getLibraryBusinessDuringDay(date: testDate!, ofLibrary: Locations.POWELL_LIBRARY.ID) { result, open, close  in
-//            print(open)
-//            print(close)
-//            print(result)
-//        }
-//
-//        AlamofireQuery.getLibraryBusinessDuringHour(hour: 15, ofLibrary: Locations.POWELL_LIBRARY.ID, onDate: testDate!) { result, overall in
-//            print(overall)
-//            print(result)
-//        }
-        
-        print(libraries.debugDescription)
+        //geoTest()
     }
     
     func geoTest()
@@ -308,18 +310,48 @@ extension MapViewController: GMSMapViewDelegate
 {
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
+        //TODO: All of this needs to be handled with a completion somehow, because you can still click on the pin while nothing is loaded
+        let pin = marker as! Pin
         let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 225, height: 145)))
         let labelAttributes: [NSAttributedStringKey : Any] = [
             NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
             NSAttributedStringKey.font: UIFont(name: "Avenir-Heavy", size: 14.0)!]
         
         infoWindow.label.attributedText = NSAttributedString(string: marker.title!, attributes: labelAttributes)
+        infoWindow.businessLabel.attributedText = NSAttributedString(string: String(describing: libraries[pin.location]!["business"]!), attributes: labelAttributes)
+        
+        let openTime = String(describing: libraries[pin.location]!["open"]!)
+        let closeTime = String(describing: libraries[pin.location]!["close"]!)
+        
+        infoWindow.hoursLabel.attributedText = NSAttributedString(string: (openTime + "-" + closeTime), attributes: labelAttributes)
         return infoWindow
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
     {
+        let pin = marker as! Pin
         detailView.libraryLabel.text = marker.title
+        
+        var businessString = ""
+        for h in 0...23
+        {
+            let currentLabel = String(h) + "business"
+            businessString += ("Hour \(h) business: " + String(describing: libraries[pin.location]![currentLabel]!) + "\n")
+        }
+        print("BUSINESS STRING" + "\n" + businessString)
+        detailView.busynessLabel.text = businessString
+        
+        var hoursString = ""
+        for w in 1...7
+        {
+            var stringToAdd = "Hours for day \(w): "
+            let currentHours = libraries[pin.location]!["weekHours"] as! [Int : [String : Int]]
+            stringToAdd += (String(describing: currentHours[w]!["open"]!) + "-" + String(describing: currentHours[w]!["close"]!) + "\n")
+            hoursString += stringToAdd
+        }
+        print("WEEKLY HOURS STRING" + "\n" + hoursString)
+        detailView.hoursLabel.text = hoursString
+        
         detailView.isHidden = false
         view.bringSubview(toFront: detailView)
     }

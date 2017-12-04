@@ -11,8 +11,12 @@ import GoogleMaps
 
 class Pin: GMSMarker
 {
-    init(position: CLLocationCoordinate2D, title: String, map: GMSMapView)
+    var location: Location
+    
+    init(position: CLLocationCoordinate2D, title: String, map: GMSMapView, location: Location)
     {
+        self.location = location
+        
         super.init()
         super.position = position
         super.title = title

@@ -11,6 +11,7 @@
 		27403CFB1FCCDD5C00F6A37C /* AlamofireQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27403CFA1FCCDD5C00F6A37C /* AlamofireQuery.swift */; };
 		2772E6411F9C5E9F00FE0426 /* Study_SmartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E6401F9C5E9F00FE0426 /* Study_SmartTests.swift */; };
 		2772E64C1F9C5E9F00FE0426 /* Study_SmartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E64B1F9C5E9F00FE0426 /* Study_SmartUITests.swift */; };
+		27C99E211FD5FBD40010C69D /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C99E201FD5FBD40010C69D /* LoadingView.swift */; };
 		27F088C11FB27C5400A2F0C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088A91FB27C5400A2F0C6 /* AppDelegate.swift */; };
 		27F088C21FB27C5400A2F0C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AA1FB27C5400A2F0C6 /* Assets.xcassets */; };
 		27F088C31FB27C5400A2F0C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AB1FB27C5400A2F0C6 /* LaunchScreen.storyboard */; };
@@ -58,6 +59,7 @@
 		2772E6471F9C5E9F00FE0426 /* Study SmartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Study SmartUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2772E64B1F9C5E9F00FE0426 /* Study_SmartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Study_SmartUITests.swift; sourceTree = "<group>"; };
 		2772E64D1F9C5E9F00FE0426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27C99E201FD5FBD40010C69D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		27F088A91FB27C5400A2F0C6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F088AA1FB27C5400A2F0C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27F088AC1FB27C5400A2F0C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				27F088D31FB28DED00A2F0C6 /* CustomDetailWindow.swift */,
 				27F088C01FB27C5400A2F0C6 /* Pin.swift */,
 				3AA93C261FCAC34D00791B9D /* Style.json */,
+				27C99E201FD5FBD40010C69D /* LoadingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				27F088C11FB27C5400A2F0C6 /* AppDelegate.swift in Sources */,
 				27F088D41FB28DED00A2F0C6 /* CustomDetailWindow.swift in Sources */,
 				27F088D21FB27C5400A2F0C6 /* Pin.swift in Sources */,
+				27C99E211FD5FBD40010C69D /* LoadingView.swift in Sources */,
 				27F088CB1FB27C5400A2F0C6 /* Location.swift in Sources */,
 				27403CFB1FCCDD5C00F6A37C /* AlamofireQuery.swift in Sources */,
 				27F088CE1FB27C5400A2F0C6 /* User.swift in Sources */,

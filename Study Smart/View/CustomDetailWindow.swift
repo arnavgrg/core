@@ -87,16 +87,18 @@ extension CustomDetailWindow
         NSLayoutConstraint(item: libraryLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 25).isActive = true
         layout(libraryLabel).size(CGSize(width: 250, height: 25))
         
-        busynessLabel = UILabel(frame: CGRect(x: 20, y: 60, width: 200, height: 20))
+        busynessLabel = UILabel(frame: CGRect(x: 20, y: 60, width: 200, height: 200))
+        busynessLabel.numberOfLines = 24
         busynessLabel.translatesAutoresizingMaskIntoConstraints = true
-        busynessLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        busynessLabel.font = UIFont(name: "Avenir-Heavy", size: 8.0)
         busynessLabel.text = "Weekly Busyness"
         busynessLabel.textColor = UIColor.white
         addSubview(busynessLabel)
         
-        hoursLabel = UILabel(frame: CGRect(x: 20, y: 290, width: 200, height: 20))
+        hoursLabel = UILabel(frame: CGRect(x: 20, y: 290, width: 200, height: 200))
+        hoursLabel.numberOfLines = 7
         hoursLabel.translatesAutoresizingMaskIntoConstraints = true
-        hoursLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        hoursLabel.font = UIFont(name: "Avenir-Heavy", size: 12.0)
         hoursLabel.text = "Weekly Hours"
         hoursLabel.textColor = UIColor.white
         addSubview(hoursLabel)
