@@ -32,12 +32,23 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         
-        setupBackground()
-        setupSignOutButton()
-        setupSignInButton()
+        GIDSignIn.sharedInstance().signInSilently()
         
-        signInButton.animate(.delay(0.5), .fade(1.00), .translate(y: -50))
-        signOutButton.animate(.delay(1), .fade(1.00), .translate(y: -50))
+        sleep(3) //TODO: Find another way to prevent the signin buttons from popping up if the user is already logged in
+        
+        if (GIDSignIn.sharedInstance().currentUser != nil)
+        {
+            goToMap()
+        }
+        else
+        {
+            setupBackground()
+            setupSignOutButton()
+            setupSignInButton()
+            
+            signInButton.animate(.delay(0.5), .fade(1.00), .translate(y: -50))
+            signOutButton.animate(.delay(1), .fade(1.00), .translate(y: -50))
+        }
     }
     
     func receiveResponse(user: GIDGoogleUser)

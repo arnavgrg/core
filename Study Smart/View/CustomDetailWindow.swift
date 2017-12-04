@@ -15,7 +15,7 @@ class CustomDetailWindow: UIView
     var exitButton: FlatButton!
     var newsButton: UIButton!
     var reserveButton: UIButton!
-    var infoButton: UIButton!
+    var favoriteButton: UIButton!
     
     var libraryLabel: UILabel!
     var busynessLabel: UILabel!
@@ -76,34 +76,30 @@ extension CustomDetailWindow
     {
         libraryLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         libraryLabel.translatesAutoresizingMaskIntoConstraints = false
-        libraryLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
+        libraryLabel.font = UIFont(name: "Avenir-Heavy", size: 20)
         libraryLabel.textColor = UIColor.white
+        libraryLabel.textAlignment = .center
         addSubview(libraryLabel)
         
         libraryLabel.numberOfLines = 0
         libraryLabel.adjustsFontSizeToFitWidth = true
         NSLayoutConstraint(item: libraryLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
         NSLayoutConstraint(item: libraryLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 25).isActive = true
-        layout(libraryLabel).size(CGSize(width: 200, height: 23))
+        layout(libraryLabel).size(CGSize(width: 250, height: 25))
         
-        busynessLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-        busynessLabel.center = CGPoint(x: 20, y: 200)
-        busynessLabel.translatesAutoresizingMaskIntoConstraints = false
+        busynessLabel = UILabel(frame: CGRect(x: 20, y: 60, width: 200, height: 20))
+        busynessLabel.translatesAutoresizingMaskIntoConstraints = true
         busynessLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
         busynessLabel.text = "Weekly Busyness"
         busynessLabel.textColor = UIColor.white
         addSubview(busynessLabel)
         
-        hoursLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-        hoursLabel.center = CGPoint(x: 20, y: 400)
-        hoursLabel.translatesAutoresizingMaskIntoConstraints = false
+        hoursLabel = UILabel(frame: CGRect(x: 20, y: 290, width: 200, height: 20))
+        hoursLabel.translatesAutoresizingMaskIntoConstraints = true
         hoursLabel.font = UIFont(name: "Avenir-Heavy", size: 18.0)
         hoursLabel.text = "Weekly Hours"
         hoursLabel.textColor = UIColor.white
         addSubview(hoursLabel)
-        
-        
-        
         
     }
     
@@ -117,10 +113,10 @@ extension CustomDetailWindow
         exitButton.setTitle("Exit", for: .normal)
         exitButton.titleLabel?.font = UIFont(name: "Avenir", size: 18)
         
-        NSLayoutConstraint(item: exitButton, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 10).isActive = true
-        NSLayoutConstraint(item: exitButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10).isActive = true
+        NSLayoutConstraint(item: exitButton, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: -10).isActive = true
+        NSLayoutConstraint(item: exitButton, attribute: .centerY, relatedBy: .equal, toItem: libraryLabel, attribute: .centerY, multiplier: 1.0, constant: 0).isActive = true
         
-        layout(exitButton).size(CGSize(width: 50, height: 50))
+        layout(exitButton).size(CGSize(width: 50, height: 25))
     }
     
     func setupOtherButtons()
@@ -139,12 +135,11 @@ extension CustomDetailWindow
         reserveButton.addTarget(self, action: #selector(reserveButtonClicked), for: .touchUpInside)
         addSubview(reserveButton)
         
-        let infoImage = UIImage(named: "infoButton") as UIImage?
-        infoButton = UIButton(type: UIButtonType.custom) as UIButton
-        infoButton.frame = CGRect(x: 275, y: 580, width: 60, height: 60)
-        infoButton.setImage(infoImage, for: .normal)
-        infoButton.addTarget(self, action: #selector(infoButtonClicked), for: .touchUpInside)
-        addSubview(infoButton)
+        let favoriteImage = UIImage(named: "favoriteButton") as UIImage?
+        favoriteButton = UIButton(type: UIButtonType.custom) as UIButton
+        favoriteButton.frame = CGRect(x: 275, y: 580, width: 60, height: 60)
+        favoriteButton.setImage(favoriteImage, for: .normal)
+        addSubview(favoriteButton)
         
     }
 }
@@ -160,12 +155,6 @@ extension CustomDetailWindow
     @objc func reserveButtonClicked(sender: UIButton!)
     {
         let url = URL(string: "http://www.library.ucla.edu/clicc/study-rooms")!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-    
-    @objc func infoButtonClicked(sender:UIButton!)
-    {
-        let url = URL(string: "http://www.library.ucla.edu")!
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
