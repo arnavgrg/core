@@ -14,7 +14,7 @@ import Motion
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate
 {
-    var mapController: UIViewController?
+    var mapController: MapViewController?
     var signInButton: UIButton!
     var signOutButton: UIButton!
     var backgroundImage: UIImageView!
@@ -33,6 +33,12 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         
+
+        setupBackground()
+        setupSignOutButton()
+        setupSignInButton()
+        setupInfoLabel()
+
         GIDSignIn.sharedInstance().signInSilently()
         
         sleep(3) //TODO: Find another way to prevent the signin buttons from popping up if the user is already logged in
@@ -46,7 +52,6 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
             setupBackground()
             setupSignOutButton()
             setupSignInButton()
-            setupInfoLabel()
             
             signInButton.animate(.delay(0.5), .fade(1.00), .translate(y: -50))
             signOutButton.animate(.delay(1), .fade(1.00), .translate(y: -50))

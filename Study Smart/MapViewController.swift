@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import Material
 import CoreLocation
+import Floaty
 
 class MapViewController: UIViewController
 {
@@ -18,6 +19,7 @@ class MapViewController: UIViewController
     let CENTER_LONGITUDE = Locations.UCLA.longitude
     let DEFAULT_ZOOM = 15.0
     
+    var floaty: Floaty!
     var camera: GMSCameraPosition!
     var mapView: GMSMapView!
     var locationManager: CLLocationManager!
@@ -129,21 +131,48 @@ extension MapViewController
     }
    
     func setupInfoButton(){
+        self.floaty = Floaty()
+        floaty.size = 60
+        floaty.paddingX = 20
+        floaty.paddingY = 20
+        floaty.rotationDegrees = 180
+        floaty.buttonImage = UIImage(named: "controlButton")
         
-        let infoButton = FABButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        // centerButton.addTarget(self, action:#selector(), for: .touchUpInside)
-        view.addSubview(infoButton)
+        floaty.addItem("Logout :(", icon: UIImage(named: "logoutButton"), handler: { item in
+            self.goToSignIn()
+        })
         
-        NSLayoutConstraint(item: infoButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: infoButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60).isActive = true
-        NSLayoutConstraint(item: infoButton, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -20).isActive = true
-        NSLayoutConstraint(item: infoButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 20).isActive = true
-        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        let favImage = UIImage(named: "favoriteButton")
+        let favs = FloatyItem()
+        favs.icon = favImage
+        favs.title = "Favorites!"
+        floaty.addItem(item: favs)
         
-        infoButton.layoutIfNeeded()
-        infoButton.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1.0)
-      
+        floaty.addItem("Give us feedback!", icon: UIImage(named: "feedbackButton"), handler: { item in
+            let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSe_ICqeCMeOOMF7Qra3ghI9zBGZWDJ_m9vaGtEbTqY_-I5D4A/viewform")!
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        })
+        for item in floaty.items {
+            item.buttonColor = UIColor(red:0.96, green:0.61, blue:0.47, alpha:1.0)
+        }
+        view.addSubview(floaty)
+        
     }
+    
+    func goToSignIn()
+    {
+        print("goToSignIn() called")
+        
+        // *** UNCOMMENT BEFORE LAUNCH ***
+        // Commented for ease of use
+        
+        // GIDSignIn.sharedInstance().signOut()
+        
+        self.dismiss(animated: true, completion: nil)
+        // self.present(signInViewController!, animated: true, completion: nil)
+        
+    }
+    
     
     func setupCenterButton()
     {
@@ -292,6 +321,7 @@ extension MapViewController: GMSMapViewDelegate
     {
         detailView.libraryLabel.text = marker.title
         detailView.isHidden = false
+        view.bringSubview(toFront: detailView)
     }
     
     // MARK: Needed to create the custom info window
