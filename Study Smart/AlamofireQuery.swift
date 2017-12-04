@@ -65,9 +65,13 @@ class AlamofireQuery
                     switch response.result
                     {
                     case .success(let data):
-                        let json = JSON(data).dictionaryObject!
+                        let json = JSON(data).arrayObject!
+                        let jString = JSON.init(json[0])
+                        let jPreParse = jString.description
+                        let jParsed = jPreParse.replacingOccurrences(of: "'", with: "\"")
+                        let finalJson = JSON.init(parseJSON: jParsed).dictionaryObject!
                         //print("JSON: \(json)") // serialized json response
-                        overall = json["overall"] as! Int
+                        overall = finalJson["overall"] as! Int
                         completion("Success", overall)
                     case .failure(let error):
                         completion("Error! \(error.localizedDescription)", overall)
