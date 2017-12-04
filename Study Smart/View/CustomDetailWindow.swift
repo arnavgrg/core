@@ -43,6 +43,7 @@ class CustomDetailWindow: UIView
         setupLabels()
         setupExitButton()
         setupOtherButtons()
+        //setupHoursView()
     }
 }
 

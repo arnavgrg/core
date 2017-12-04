@@ -12,6 +12,7 @@
 		2772E6411F9C5E9F00FE0426 /* Study_SmartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E6401F9C5E9F00FE0426 /* Study_SmartTests.swift */; };
 		2772E64C1F9C5E9F00FE0426 /* Study_SmartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2772E64B1F9C5E9F00FE0426 /* Study_SmartUITests.swift */; };
 		27F088C11FB27C5400A2F0C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088A91FB27C5400A2F0C6 /* AppDelegate.swift */; };
+		27F088C21FB27C5400A2F0C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AA1FB27C5400A2F0C6 /* Assets.xcassets */; };
 		27F088C31FB27C5400A2F0C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AB1FB27C5400A2F0C6 /* LaunchScreen.storyboard */; };
 		27F088C41FB27C5400A2F0C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AD1FB27C5400A2F0C6 /* Main.storyboard */; };
 		27F088C51FB27C5400A2F0C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AF1FB27C5400A2F0C6 /* GoogleService-Info.plist */; };
@@ -24,8 +25,6 @@
 		27F088D01FB27C5400A2F0C6 /* CustomInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */; };
 		27F088D21FB27C5400A2F0C6 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088C01FB27C5400A2F0C6 /* Pin.swift */; };
 		27F088D41FB28DED00A2F0C6 /* CustomDetailWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F088D31FB28DED00A2F0C6 /* CustomDetailWindow.swift */; };
-		3A091FCB1FD4C7230010E3B4 /* Floaty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A091FCC1FD4C7230010E3B4 /* Floaty.framework */; };
-		3A091FCD1FD4F1DB0010E3B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F088AA1FB27C5400A2F0C6 /* Assets.xcassets */; };
 		3AA93C271FCAC42400791B9D /* Style.json in Resources */ = {isa = PBXBuildFile; fileRef = 3AA93C261FCAC34D00791B9D /* Style.json */; };
 		7D9BFFC81DB816E5E99ACFDB /* Pods_Study_Smart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */; };
 		DE6CDB9416B649481F131DE4 /* Pods_Study_SmartUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59C46833801838595CD98B93 /* Pods_Study_SmartUITests.framework */; };
@@ -75,7 +74,6 @@
 		27F088BE1FB27C5400A2F0C6 /* CustomInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfoWindow.swift; sourceTree = "<group>"; };
 		27F088C01FB27C5400A2F0C6 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		27F088D31FB28DED00A2F0C6 /* CustomDetailWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailWindow.swift; sourceTree = "<group>"; };
-		3A091FCC1FD4C7230010E3B4 /* Floaty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Floaty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA93C261FCAC34D00791B9D /* Style.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Style.json; sourceTree = "<group>"; };
 		59C46833801838595CD98B93 /* Pods_Study_SmartUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Study_SmartUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Study_Smart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,7 +89,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A091FCB1FD4C7230010E3B4 /* Floaty.framework in Frameworks */,
 				7D9BFFC81DB816E5E99ACFDB /* Pods_Study_Smart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,7 +196,6 @@
 		2D2E5A332E87E64FA6EC432A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3A091FCC1FD4C7230010E3B4 /* Floaty.framework */,
 				66D2561A3954DB2ED907D0C5 /* Pods_Study_Smart.framework */,
 				F2B6547D51AF6B5B2EFBB192 /* Pods_Study_SmartTests.framework */,
 				59C46833801838595CD98B93 /* Pods_Study_SmartUITests.framework */,
@@ -340,8 +336,8 @@
 				27F088C41FB27C5400A2F0C6 /* Main.storyboard in Resources */,
 				3AA93C271FCAC42400791B9D /* Style.json in Resources */,
 				27F088C51FB27C5400A2F0C6 /* GoogleService-Info.plist in Resources */,
+				27F088C21FB27C5400A2F0C6 /* Assets.xcassets in Resources */,
 				27F088C31FB27C5400A2F0C6 /* LaunchScreen.storyboard in Resources */,
-				3A091FCD1FD4F1DB0010E3B4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
