@@ -33,7 +33,10 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         
-        GIDSignIn.sharedInstance().signInSilently()
+        if (GIDSignIn.sharedInstance().hasAuthInKeychain())
+        {
+            GIDSignIn.sharedInstance().signInSilently()
+        }
         
         sleep(3) //TODO: Find another way to prevent the signin buttons from popping up if the user is already logged in
         
