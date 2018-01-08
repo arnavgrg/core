@@ -132,9 +132,9 @@ extension MapViewController
             {
                 populateGroup.enter()
                 AlamofireQuery.getLibraryBusinessDuringHour(hour: h, ofLibrary: library.ID, onDate: currentDate, withCompletion: { result, business in
-                    let label = String(h) + "business"
+                    let label = String(h) + "busyness"
                     self.libraries[library]![label] = business
-                    print("\(result) for populating hour \(h) business for \(library.name)")
+                    print("\(result) for populating hour \(h) busyness for \(library.name)")
                     defer { populateGroup.leave() }
                 })
             }
@@ -311,19 +311,24 @@ extension MapViewController: GMSMapViewDelegate
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?
     {
         //TODO: All of this needs to be handled with a completion somehow, because you can still click on the pin while nothing is loaded
+        
         let pin = marker as! Pin
         let infoWindow = CustomInfoWindow(frame: CGRect(center: marker.infoWindowAnchor, size: CGSize(width: 225, height: 145)))
         let labelAttributes: [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            NSAttributedStringKey.font: UIFont(name: "Avenir-Heavy", size: 14.0)!]
+        let labelAttributes_underlined: [NSAttributedStringKey : Any] = [ NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
             NSAttributedStringKey.font: UIFont(name: "Avenir-Heavy", size: 14.0)!]
         
-        infoWindow.label.attributedText = NSAttributedString(string: marker.title!, attributes: labelAttributes)
-        infoWindow.businessLabel.attributedText = NSAttributedString(string: String(describing: libraries[pin.location]!["business"]!), attributes: labelAttributes)
+        infoWindow.label.attributedText = NSAttributedString(string: marker.title!, attributes: labelAttributes_underlined)
+        let busy = "Currently " + String(describing: libraries[pin.location]!["business"]!) + "% busy"
+        infoWindow.businessLabel.attributedText = NSAttributedString(string: busy, attributes: labelAttributes)
         
         let openTime = String(describing: libraries[pin.location]!["open"]!)
         let closeTime = String(describing: libraries[pin.location]!["close"]!)
+        infoWindow.hoursLabel.numberOfLines = 3
+        infoWindow.hoursLabel.attributedText = NSAttributedString(string: ("Today: " + openTime + " to " + closeTime), attributes: labelAttributes)
         
-        infoWindow.hoursLabel.attributedText = NSAttributedString(string: (openTime + "-" + closeTime), attributes: labelAttributes)
+        
         return infoWindow
     }
     
@@ -333,24 +338,25 @@ extension MapViewController: GMSMapViewDelegate
         detailView.libraryLabel.text = marker.title
         
         var businessString = ""
-        for h in 0...23
+        for h in 7...23
         {
-            let currentLabel = String(h) + "business"
-            businessString += ("Hour \(h) business: " + String(describing: libraries[pin.location]![currentLabel]!) + "\n")
+            let currentLabel = String(h) + "busyness"
+            businessString += ("From \(h) to \(h+1):\t\t" + String(describing: libraries[pin.location]![currentLabel]!) + "%\n")
         }
         print("BUSINESS STRING" + "\n" + businessString)
-        detailView.busynessLabel.text = businessString
+        detailView.busynessLabel.text = "Average weekly busyness \n\n" + businessString
         
         var hoursString = ""
         for w in 1...7
         {
-            var stringToAdd = "Hours for day \(w): "
+            let day = weekday(w)!
+            var stringToAdd = day + " \t"
             let currentHours = libraries[pin.location]!["weekHours"] as! [Int : [String : Int]]
-            stringToAdd += (String(describing: currentHours[w]!["open"]!) + "-" + String(describing: currentHours[w]!["close"]!) + "\n")
+            stringToAdd += (String(describing: currentHours[w]!["open"]!) + " to " + String(describing: currentHours[w]!["close"]!) + "\n")
             hoursString += stringToAdd
         }
         print("WEEKLY HOURS STRING" + "\n" + hoursString)
-        detailView.hoursLabel.text = hoursString
+        detailView.hoursLabel.text = "Weekly hours\n\n" + hoursString
         
         detailView.isHidden = false
         view.bringSubview(toFront: detailView)
@@ -376,6 +382,27 @@ extension MapViewController: GMSMapViewDelegate
      infoWindow.removeFromSuperview()
      }
      */
+    
+    func weekday(_ w: Int) -> String?{
+        switch(w){
+        case 1:
+            return "Monday\t"
+        case 2:
+            return "Tuesday\t"
+        case 3:
+            return "Wednesday"
+        case 4:
+            return "Thursday\t"
+        case 5:
+            return "Friday\t"
+        case 6:
+            return "Saturday\t"
+        case 7:
+            return "Sunday\t"
+        default:
+            return nil
+        }
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate
